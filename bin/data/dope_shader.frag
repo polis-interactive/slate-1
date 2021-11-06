@@ -51,7 +51,7 @@ void main(){
 
     float pct = -uv.x / 5.0 + time / 10.0;
 
-    pct = pow(sin(pct), 2) * 0.475 + 0.1;
+    pct = pow(sin(pct), 2.0) * 0.475 + 0.1;
 
     // We map x (0.0 - 1.0) to the hue (0.0 - 1.0)
     // And the y (0.0 - 1.0) to the brightness
