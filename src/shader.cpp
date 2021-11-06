@@ -6,6 +6,7 @@
 Shader::Shader(LedInput* input, std::string shaderName): led_input_(input) {
 	shader_ = new ofShader();
 	shader_name_ = shaderName;
+	shader_->load(shader_name_);
 }
 
 void Shader::UpdateShader() {
