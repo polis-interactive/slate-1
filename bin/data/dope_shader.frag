@@ -26,14 +26,19 @@ uniform float contrast;
 #define TAU 6.28318530718
 #define PI 3.14158
 
+vec3 green = vec3(0.0, 1.0, 0.0);
+vec3 yellow = vec3(1.0, 1.0, 0.0);
+
 // main
 void main(void) {
 
-    float t1 = time;
+    float t1 = time * speed;
     // uv should be the 0-1 uv of texture...
     vec2 uv = gl_FragCoord.xy / resolution.xy;
 
-    vec3 color = vec3((sin(t1 - uv.y * 3.0) + 1.0)*0.5);
+    float pct = (sin(t1 - uv.x) + 1.0)*0.5;
+
+    vec3 color = mix(green, yellow, pct);
     
     gl_FragColor = vec4(pow(color, vec3(gamma)), 1.0);
 
