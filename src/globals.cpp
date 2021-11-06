@@ -61,6 +61,26 @@ namespace globals {
 		ofPoint(0, 5), ofPoint(0, 6),
 			ofPoint(0, 15), ofPoint(0, 16), ofPoint(0, 17), ofPoint(0, 18),
 		ofPoint(1, 4), ofPoint(1, 17),
+		ofPoint(3, 0), ofPoint(3, 1), ofPoint(3, 2),
+			ofPoint(3, 19), ofPoint(3, 20),
+		ofPoint(4, 0), ofPoint(4, 1),
+			ofPoint(4, 20),
+		ofPoint(5, 0), ofPoint(5, 1),
+			ofPoint(5, 20),
+		ofPoint(6, 0),
+		ofPoint(7, 0),
+		ofPoint(8, 0),
+		ofPoint(9, 0),
+		ofPoint(10, 0),
+		ofPoint(11, 0),
+		ofPoint(13, 0),
+		ofPoint(14, 0),
+		ofPoint(15, 0),
+		ofPoint(16, 0),
+		ofPoint(17, 0),
+		ofPoint(18, 0),
+		ofPoint(19, 0),
+		ofPoint(20, 0),
 	};
 
 	std::vector<ofPoint> permaoff_positions = {
@@ -70,12 +90,7 @@ namespace globals {
 			ofPoint(1, 18), ofPoint(1, 19), ofPoint(1, 20),
 		ofPoint(2, 0), ofPoint(2, 1), ofPoint(2, 2), ofPoint(2, 3),
 			ofPoint(2, 18), ofPoint(2, 19), ofPoint(2, 20),
-		ofPoint(3, 0), ofPoint(3, 1), ofPoint(3, 2),
-			ofPoint(3, 19), ofPoint(3, 20),
-		ofPoint(4, 0), ofPoint(4, 1),
-			ofPoint(4, 20),
-		ofPoint(5, 0), ofPoint(5, 1),
-			ofPoint(5, 20)
+
 	};
 
 	/* input config */
