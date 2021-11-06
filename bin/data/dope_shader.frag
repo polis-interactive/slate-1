@@ -17,33 +17,47 @@ precision highp float;
 uniform float time;
 uniform vec2 resolution;
 
-uniform float gamma;
-uniform float speed;
-uniform float scale;
-uniform float brightness;
-uniform float contrast;
-
-#define TAU 6.28318530718
-#define PI 3.14158
-
-vec3 green = vec3(0.0, 1.0, 0.0);
-vec3 yellow = vec3(1.0, 0.937, 0.0);
-
-float parabola( float x, float k ){
-    return pow( 4.0*x*(1.0-x), k );
+vec3 rgb2hsb( in vec3 c ){
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz),
+                 vec4(c.gb, K.xy),
+                 step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r),
+                 vec4(c.r, p.yzx),
+                 step(p.x, c.r));
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)),
+                d / (q.x + e),
+                q.x);
 }
 
-// main
-void main(void) {
 
-    float t1 = time * speed;
-    // uv should be the 0-1 uv of texture...
-    vec2 uv = gl_FragCoord.xy / resolution.xy * 2.0 - 1.0;
+vec3 hsb2rgb( in vec3 c ){
+    vec3 rgb = clamp(abs(mod(c.x*6.0+vec3(0.0,4.0,2.0),
+                             6.0)-3.0)-1.0,
+                     0.0,
+                     1.0 );
+    rgb = rgb*rgb*(3.0-2.0*rgb);
+    return c.z * mix(vec3(1.0), rgb, c.y);
+}
 
-    float pct = max(pow(cos((t1 - uv.x) * 1.4), 0.5), 0.5);
 
-    vec3 color = mix(green, yellow, pct);
+void main(){
+
+    vec2 uv = gl_FragCoord.xy / resolution.xy;
+
+	vec3 color = vec3(0.0);
+
+    float pct = -uv.x / 5.0 + time / 10.0;
+
+    pct = sin(pct) * 0.3 + 0.4;
+
+    // We map x (0.0 - 1.0) to the hue (0.0 - 1.0)
+    // And the y (0.0 - 1.0) to the brightness
+    color = hsb2rgb(vec3(pct,1.0,0.8));
     
-    gl_FragColor = vec4(pow(color, vec3(gamma)), 1.0);
+    gl_FragColor = vec4(color, 1.0);
+
 
 }
