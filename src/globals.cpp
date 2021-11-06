@@ -36,16 +36,15 @@ namespace globals {
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(3, 7)), // column 3, middle
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(3, 14)), // column 3, top
 
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(10, 14)), // column 4, top
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(10, 7)), // column 4, middle
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(10, 0)), // column 4, bottom
+
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(17, 0)), // column 5, bottom
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(17, 7)), // column 5, middle
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(17, 14)), // column 5, top
+
 		/*
-		* 
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(16, 9)), // column 4, bottom
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(16, 2)), // column 4, middle
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(9, 2)), // column 4, top
-
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(16, 9)), // column 5, top
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(16, 2)), // column 5, middle
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(9, 2)), // column 5, bottom
-
 		// side singles
 		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(3, 1)), // column 6, bottom
 		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(3, 1)), // column 6, middle
@@ -71,6 +70,12 @@ namespace globals {
 			ofPoint(1, 18), ofPoint(1, 19), ofPoint(1, 20),
 		ofPoint(2, 0), ofPoint(2, 1), ofPoint(2, 2), ofPoint(2, 3),
 			ofPoint(2, 18), ofPoint(2, 19), ofPoint(2, 20),
+		ofPoint(3, 0), ofPoint(3, 1), ofPoint(3, 2),
+			ofPoint(3, 19), ofPoint(3, 20),
+		ofPoint(4, 0), ofPoint(4, 1),
+			ofPoint(4, 20),
+		ofPoint(5, 0), ofPoint(5, 1),
+			ofPoint(5, 20)
 	};
 
 	/* input config */
