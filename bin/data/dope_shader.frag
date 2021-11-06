@@ -27,18 +27,22 @@ uniform float contrast;
 #define PI 3.14158
 
 vec3 green = vec3(0.0, 1.0, 0.0);
-vec3 yellow = vec3(1.0, 1.0, 0.0);
+vec3 yellow = vec3(1.0, 0.937, 0.0);
+
+float parabola( float x, float k ){
+    return pow( 4.0*x*(1.0-x), k );
+}
 
 // main
 void main(void) {
 
     float t1 = time * speed;
     // uv should be the 0-1 uv of texture...
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec2 uv = gl_FragCoord.xy / resolution.xy * 2.0 - 1.0;
 
-    float pct = 1.0 - pow(abs(sin(PI * (t1 - uv.x) / 2.0)), 0.25);
+    float pct = max(pow(cos(PI * (t1 - uv.x) / 2.0), 0.5), 0.5);
 
-    vec3 color = mix(yellow, green, pct);
+    vec3 color = mix(green, yellow, pct);
     
     gl_FragColor = vec4(pow(color, vec3(gamma)), 1.0);
 
