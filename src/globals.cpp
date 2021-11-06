@@ -44,17 +44,14 @@ namespace globals {
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(17, 7)), // column 5, middle
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(17, 14)), // column 5, top
 
-		/*
 		// side singles
-		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(3, 1)), // column 6, bottom
-		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(3, 1)), // column 6, middle
-		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(3, 1)), // column 6, top
+		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(23, 14)), // column 6, top
+		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(23, 7)), // column 6, middle
+		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(23, 0)), // column 6, bottom
 
-		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(3, 1)), // column 7, top
-		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(3, 1)), // column 7, middle
-		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(3, 1)), // column 7, bottom
-
-		*/
+		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(23, 0)), // column 7, bottom
+		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(23, 7)), // column 7, middle
+		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_180, ofPoint(23, 14)), // column 7, top
 	};
 
 	std::vector<ofPoint> disallowed_positions = {
@@ -73,6 +70,7 @@ namespace globals {
 		ofPoint(9, 0),
 		ofPoint(10, 0),
 		ofPoint(11, 0),
+		ofPoint(12, 0),
 		ofPoint(13, 0),
 		ofPoint(14, 0),
 		ofPoint(15, 0),
@@ -81,6 +79,9 @@ namespace globals {
 		ofPoint(18, 0),
 		ofPoint(19, 0),
 		ofPoint(20, 0),
+		ofPoint(21, 0),
+		ofPoint(22, 0),
+		ofPoint(23, 0),
 	};
 
 	std::vector<ofPoint> permaoff_positions = {
