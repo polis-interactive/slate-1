@@ -32,9 +32,9 @@ namespace globals {
 		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(2, 4)), // column 2, bottom
 
 		// chonkers
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(3, 0)), // column 3, bottom
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(3, 7)), // column 3, middle
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(3, 14)), // column 3, top
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(3, 0)), // column 3, bottom
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(3, 7)), // column 3, middle
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(3, 14)), // column 3, top
 
 		/*
 		* 
