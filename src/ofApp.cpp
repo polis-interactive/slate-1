@@ -69,12 +69,8 @@ void ofApp::setup() {
 
 	auto input_init = LedInputInitializer(grid_defs, globals::segment_size);
 
-	if (globals::input_type == LedInputType::ARTNET) {
-		led_input = new ArtnetGraphics(input_init);
-	}
-	else {
-		led_input = new SequencedGraphics(input_init);
-	}
+	led_input = new SequencedGraphics(input_init);
+
 	std::cout << "ofApp, setup: done " << std::endl;
 
 }
