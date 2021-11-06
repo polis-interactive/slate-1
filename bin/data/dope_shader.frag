@@ -33,7 +33,7 @@ void main(void) {
     // uv should be the 0-1 uv of texture...
     vec2 uv = gl_FragCoord.xy / resolution.xy;
 
-    vec3 color = vec3((sin(t1 - uv.y * uv.x * 3.0) + 1.0)*0.5);
+    vec3 color = vec3((sin(t1 - uv.y * 3.0) + 1.0)*0.5);
     
     gl_FragColor = vec4(pow(color, vec3(gamma)), 1.0);
 
