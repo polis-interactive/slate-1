@@ -7,7 +7,7 @@ namespace globals {
 
 	const int output_width = 750;
 	const int output_height = 1000;
-	const int frame_rate = 30;
+	const int frame_rate = 20;
 
 
 	
