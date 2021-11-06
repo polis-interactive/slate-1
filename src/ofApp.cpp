@@ -4,7 +4,6 @@
 #include "boards.h"
 #include "globals.h"
 #include "lighting.h"
-#include "artnet.h"
 #include "sequenced.h"
 
 
