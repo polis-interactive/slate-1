@@ -12,6 +12,7 @@ namespace globals {
 	/* prog config */
 	const extern int output_width;
 	const extern int output_height;
+	const extern int frame_rate;
 
 
 	/* strip config */

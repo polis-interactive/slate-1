@@ -23,7 +23,7 @@ int main( ){
 	ofSetupOpenGL(globals::output_width, globals::output_height, OF_WINDOW);
 	signal(SIGINT, KillHandler);
 #endif
-
+	ofSetFrameRate(globals::frame_rate);
 	ofRunApp(new ofApp());
 
 }
