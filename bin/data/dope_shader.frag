@@ -40,7 +40,7 @@ void main(void) {
     // uv should be the 0-1 uv of texture...
     vec2 uv = gl_FragCoord.xy / resolution.xy * 2.0 - 1.0;
 
-    float pct = max(pow(cos((t1 - uv.x)), 0.5), 0.5);
+    float pct = max(pow(cos((t1 - uv.x) * 1.4), 0.5), 0.5);
 
     vec3 color = mix(green, yellow, pct);
     
