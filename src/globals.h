@@ -41,11 +41,6 @@ namespace globals {
 	const extern float shader_brightness;
 	const extern float shader_contrast;
 
-	/* stream config */
-
-	extern std::vector<std::vector<ofPoint>> stream_positions;
-
 	/* output config */
-	extern std::vector<ofPoint> corner_positions;
 	extern std::vector<ofPoint> permaoff_positions;
 }

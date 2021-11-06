@@ -13,5 +13,6 @@ public:
 private:
 	LedInput* led_input_;
 	ofShader *shader_;
+	std::string shader_name_;
 };
 

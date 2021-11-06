@@ -22,16 +22,17 @@ std::pair<LedDefinitions, int> SetupLedBoards(std::vector<BoardConfiguration> &c
 
 			switch (orient) {
 			case BoardOrientation::ORIENT_0:
-				position = ofPoint(position.x + x_pos, position.y + y_pos);
+				position = ofPoint(position.x + y_pos, position.y + (6 - x_pos));
 				break;
 			case BoardOrientation::ORIENT_90:
-				position = ofPoint(position.x + (max_nominal_y - y_pos), position.y + x_pos);
+				position = ofPoint(position.x + x_pos, position.y + y_pos);
+				
 				break;
 			case BoardOrientation::ORIENT_180:
-				position = ofPoint(position.x + (6 - x_pos), position.y + (max_nominal_y - y_pos));
+				position = ofPoint(position.x + (max_nominal_y - y_pos), position.y + x_pos);
 				break;
 			case BoardOrientation::ORIENT_270:
-				position = ofPoint(position.x + y_pos, position.y + (6 - x_pos));
+				position = ofPoint(position.x + (6 - x_pos), position.y + (max_nominal_y - y_pos));
 				break;
 			}
 

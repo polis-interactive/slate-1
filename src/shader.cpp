@@ -5,7 +5,7 @@
 
 Shader::Shader(LedInput* input, std::string shaderName): led_input_(input) {
 	shader_ = new ofShader();
-	shader_->load(shaderName);
+	shader_name_ = shaderName;
 }
 
 void Shader::UpdateShader() {
@@ -15,6 +15,7 @@ void Shader::UpdateShader() {
 	static float resolution[] = { width, height };
 	static ofFbo* fbo = led_input_->fbo_;
 	static ofPixels* pixels = led_input_->pixels_;
+	shader_->load(shader_name_);
 	time = ofGetElapsedTimef();
 	fbo->begin();
 	shader_->begin();

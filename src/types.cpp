@@ -6,8 +6,8 @@ void LedInput::InitializeInput(LedInputInitializer& config) {
 	const auto grid_definitions = config._grid_definitions;
 	min_y_ = grid_definitions._min_grid_y;
 	min_x_ = grid_definitions._min_grid_x;
-	grid_width_ = grid_definitions._max_grid_y - grid_definitions._min_grid_y + 1;
-	grid_height_ = grid_definitions._max_grid_x - grid_definitions._min_grid_x + 1;
+	grid_width_ = grid_definitions._max_grid_x - grid_definitions._min_grid_x + 1;
+	grid_height_ = grid_definitions._max_grid_y - grid_definitions._min_grid_y + 1;
 	grid_pixels_ = grid_width_ * grid_height_;
 	segment_size_ = config._segment_size;
 	total_width_ = grid_width_ * segment_size_;
@@ -20,9 +20,6 @@ void LedInput::InitializeInput(LedInputInitializer& config) {
 }
 
 void LedInput::DrawInput() {
-	for (const ofPoint& point : globals::corner_positions) {
-		TurnOffRgbPixel(point, 1);
-	}
 	for (const ofPoint& point : globals::permaoff_positions) {
 		TurnOffRgbPixel(point, 2);
 	}
@@ -35,8 +32,8 @@ void LedInput::DrawInput() {
 
 
 const ofColor LedInput::GetRGBPixel(const ofPoint& position) {
-	const int mapped_x = (position.y - min_y_) * segment_size_;
-	const int mapped_y = total_height_ - 1 - (position.x - min_x_) * segment_size_;
+	const int mapped_x = (position.x - min_x_) * segment_size_;
+	const int mapped_y = (position.y - min_y_) * segment_size_;
 	ofColor c = pixels_->getColor(mapped_x, mapped_y);
 	return c;
 }
@@ -50,8 +47,8 @@ void LedInput::TurnOffRgbPixel(const ofPoint& position, int is_red_or_something)
 	auto pixels = pixels_->begin();
 	for (int draw_x = 0; draw_x < segment_size_; draw_x++) {
 		for (int draw_y = 0; draw_y < segment_size_; draw_y++) {
-			const int pixel_x = (position.y - min_y_) * segment_size_ + draw_x;
-			const int pixel_y = total_height_ - (position.x - min_x_ + 1) * segment_size_ + draw_y;
+			const int pixel_x = (position.x - min_x_) * segment_size_ + draw_x;
+			const int pixel_y = (position.y - min_y_) * segment_size_ + draw_y;
 			const int pixel_position = pixels_->getPixelIndex(pixel_x, pixel_y);
 			if (is_red_or_something == 0) {
 				memset(pixels + pixel_position, 255, sizeof(uint8_t));
@@ -81,8 +78,8 @@ void LedInput::SetProperPixelColor(const ofPoint& position, const ofColor& c) {
 	auto pixels = pixels_->begin();
 	for (int draw_x = 0; draw_x < segment_size_; draw_x++) {
 		for (int draw_y = 0; draw_y < segment_size_; draw_y++) {
-			const int pixel_x = (position.y - min_y_) * segment_size_ + draw_x;
-			const int pixel_y = total_height_ - (position.x - min_x_ + 1) * segment_size_ + draw_y;
+			const int pixel_x = (position.x - min_x_) * segment_size_ + draw_x;
+			const int pixel_y = (position.y - min_y_) * segment_size_ + draw_y;
 			const int pixel_position = pixels_->getPixelIndex(pixel_x, pixel_y);
 			memcpy(pixel_data + pixel_position, c.v, sizeof(uint8_t) * 3);
 		}
@@ -93,8 +90,8 @@ void LedInput::SetProperPixelColor(const ofPoint& position, const ofColor& c) {
 void LedInput::SetProperPixelTint(const ofPoint& position, const float& tinter) {
 	for (int draw_x = 0; draw_x < segment_size_; draw_x++) {
 		for (int draw_y = 0; draw_y < segment_size_; draw_y++) {
-			const int pixel_x = (position.y - min_y_) * segment_size_ + draw_x;
-			const int pixel_y = total_height_ - (position.x - min_x_ + 1) * segment_size_ + draw_y;
+			const int pixel_x = (position.x - min_x_) * segment_size_ + draw_x;
+			const int pixel_y = (position.y - min_y_) * segment_size_ + draw_y;
 			const int pixel_position = pixels_->getPixelIndex(pixel_x, pixel_y);
 			const auto oc = pixels_->getColor(pixel_x, pixel_y);
 			pixels_->setColor(pixel_x, pixel_y, ofColor::white.getLerped(oc, tinter));

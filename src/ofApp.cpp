@@ -60,8 +60,8 @@ void ofApp::setup() {
 
 	auto grid_defs = Light::SetupLights(led_proxys, led_strip);
 
-	std::cout << "max width should be 17: " << grid_defs._min_grid_y << ", " << grid_defs._max_grid_y << std::endl;
-	std::cout << "max height should be 24: " << grid_defs._min_grid_x << ", " << grid_defs._max_grid_x << std::endl;
+	std::cout << "x: " << grid_defs._min_grid_x << ", " << grid_defs._max_grid_x << std::endl;
+	std::cout << "y: " << grid_defs._min_grid_y << ", " << grid_defs._max_grid_y << std::endl;
 
 
 
