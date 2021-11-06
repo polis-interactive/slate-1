@@ -15,7 +15,9 @@ void Shader::UpdateShader() {
 	static float resolution[] = { width, height };
 	static ofFbo* fbo = led_input_->fbo_;
 	static ofPixels* pixels = led_input_->pixels_;
+#ifndef __arm__
 	shader_->load(shader_name_);
+#endif
 	time = ofGetElapsedTimef();
 	fbo->begin();
 	shader_->begin();
