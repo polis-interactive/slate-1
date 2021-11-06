@@ -31,13 +31,13 @@ namespace globals {
 		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(2, 11)), // column 2, top
 		BoardConfiguration(BoardType::BOARD_1X7, BoardOrientation::ORIENT_0, ofPoint(2, 4)), // column 2, bottom
 
-		/*
-
 		// chonkers
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(16, 9)), // column 3, top
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(16, 2)), // column 3, middle
-		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(9, 2)), // column 3, bottom
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(3, 0)), // column 3, bottom
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(3, 7)), // column 3, middle
+		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_90, ofPoint(3, 14)), // column 3, top
 
+		/*
+		* 
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_270, ofPoint(16, 9)), // column 4, bottom
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(16, 2)), // column 4, middle
 		BoardConfiguration(BoardType::BOARD_7X7, BoardOrientation::ORIENT_180, ofPoint(9, 2)), // column 4, top
@@ -65,15 +65,12 @@ namespace globals {
 	};
 
 	std::vector<ofPoint> permaoff_positions = {
-		 ofPoint(0, 4), ofPoint(1, 18), ofPoint(2, 18),
-		/*
 		ofPoint(0, 0), ofPoint(0, 1), ofPoint(0, 2), ofPoint(0, 3), ofPoint(0, 4),
 			ofPoint(0, 19), ofPoint(0, 20),
 		ofPoint(1, 0), ofPoint(1, 1), ofPoint(1, 2), ofPoint(1, 3),
-			ofPoint(1, 18), // ofPoint(1, 19), ofPoint(1, 20),
+			ofPoint(1, 18), ofPoint(1, 19), ofPoint(1, 20),
 		ofPoint(2, 0), ofPoint(2, 1), ofPoint(2, 2), ofPoint(2, 3),
 			ofPoint(2, 18), ofPoint(2, 19), ofPoint(2, 20),
-			*/
 	};
 
 	/* input config */
