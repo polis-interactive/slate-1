@@ -49,7 +49,7 @@ void main(){
 
 	vec3 color = vec3(0.0);
 
-    float pct = -uv.x / 5.0 + time / 10.0;
+    float pct = -uv.x - sin(uv.y + time) + time / 10.0;
 
     pct = pow(sin(pct), 2.0) * 0.5 + 0.1;
 
