@@ -40,6 +40,7 @@ std::pair<LedDefinitions, int> SetupLedBoards(std::vector<BoardConfiguration> &c
 				globals::disallowed_positions.begin(), globals::disallowed_positions.end(), position
 			) == globals::disallowed_positions.end();
 
+
 			auto proxy = new LedProxy(
 				last_led_asigned, position, is_allowed
 			);
