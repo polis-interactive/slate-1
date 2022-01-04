@@ -2,7 +2,6 @@ package render
 
 import (
 	"fmt"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 	"log"
 	"time"
@@ -83,25 +82,12 @@ CloseWs2812Loop:
 
 func (r *ws2812Render) runRender() error {
 
-	/*
 	err := r.bus.CopyLightsToUint32Buffer(r.strip.Leds(0))
 	if err != nil {
 		return err
 	}
-	*/
 
-	leds := r.strip.Leds(0)
-	c := &types.Color{
-		R: 255,
-		G: 255,
-		B: 255,
-		W: 255,
-	}
-	for i, _ := range leds {
-		leds[i] = c.ToBits()
-	}
-
-	err := r.strip.Render()
+	err = r.strip.Render()
 	return err
 }
 
