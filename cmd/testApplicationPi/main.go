@@ -26,7 +26,7 @@ func main() {
 		},
 		Ws2812Config: &application.Ws2812Config{
 			GpioPin:   types.GpioPinTypes.GPIO18,
-			StripType: types.StripTypes.WS2811RBG,
+			StripType: types.StripTypes.WS2811BGR,
 			Gamma:     1.0,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
