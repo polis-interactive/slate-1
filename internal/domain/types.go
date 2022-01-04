@@ -1,11 +1,11 @@
 package domain
 
 import (
-	"github.com/polis-interactive/slate-1/internal/types"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 	"sync"
 )
 
-const Program = "Slate-1"
+const Program = "slate-italian-plumber-1"
 
 type RenderState bool
 

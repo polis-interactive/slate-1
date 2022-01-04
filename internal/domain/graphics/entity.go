@@ -2,9 +2,9 @@ package graphics
 
 import (
 	"fmt"
-	"github.com/polis-interactive/slate-1/internal/domain"
-	"github.com/polis-interactive/slate-1/internal/types"
-	"github.com/polis-interactive/slate-1/internal/types/shader"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/types/shader"
 	"log"
 	"sync"
 	"time"
@@ -28,7 +28,7 @@ func newGraphics(cfg Config, bus Bus) (*graphics, error) {
 	shaderName := cfg.GetGraphicsShaderName()
 	fileHandle, err := shader.GetShaderQualifiedPath(shaderName, domain.Program)
 	if err != nil {
-		log.Fatalln(fmt.Sprintf("graphics, newGraphics: couldn't find shader %s", shaderName))
+		log.Fatalln(fmt.Sprintf("graphics, newGraphics: couldn't find shader %s; %s", shaderName, err.Error()))
 		return nil, err
 	}
 	pixelSize := cfg.GetGraphicsPixelSize()

@@ -1,4 +1,4 @@
-module github.com/polis-interactive/slate-1
+module github.com/polis-interactive/slate-italian-plumber-1
 
 go 1.17
 

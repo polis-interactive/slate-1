@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"github.com/polis-interactive/slate-1/internal/types/shader"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/types/shader"
 	"log"
 	"runtime"
 	"time"

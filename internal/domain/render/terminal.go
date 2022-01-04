@@ -2,7 +2,7 @@ package render
 
 import (
 	"fmt"
-	"github.com/polis-interactive/slate-1/internal/types"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 	"log"
 )
 

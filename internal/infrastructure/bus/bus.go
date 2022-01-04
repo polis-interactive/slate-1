@@ -1,7 +1,7 @@
 package bus
 
 import (
-	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
 )
 
 type bus struct {

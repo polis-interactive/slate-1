@@ -1,6 +1,6 @@
 package data
 
-import "github.com/polis-interactive/slate-1/internal/types"
+import "github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 
 var TerminalBoardConfiguration = []types.BoardConfiguration{
 	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(0, 0)),

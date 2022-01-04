@@ -1,6 +1,6 @@
 package lighting
 
-import "github.com/polis-interactive/slate-1/internal/types"
+import "github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 
 func generateLights(boards []types.BoardConfiguration, disallowed []types.Point) ([]types.Light, int) {
 	// outputs
