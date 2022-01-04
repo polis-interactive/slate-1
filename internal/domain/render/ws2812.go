@@ -2,6 +2,7 @@ package render
 
 import (
 	"fmt"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 	"log"
 	"time"
@@ -12,7 +13,6 @@ type ws2812Render struct {
 	channel int
 	options *ws2811.Option
 	strip *ws2811.WS2811
-	gamma float32
 }
 
 var _ render = (*ws2812Render)(nil)
@@ -29,18 +29,22 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 	options.Channels[0].Brightness = 255
 	options.Channels[0].Gamma = nil
 	channel := 0
-	if pinNumber == 19 {
+	if cfg.GetGamma() != 1 {
+		options.Channels[0].Gamma = types.MakeGammaTable(float64(cfg.GetGamma()))
+	}
+	if pinNumber == types.GpioPinTypes.GPIO19 ||
+			pinNumber == types.GpioPinTypes.GPIO13 {
 		options.Channels = append([]ws2811.ChannelOption{{}}, options.Channels...)
 		options.Channels[0].GpioPin = 18
 		options.Channels[0].LedCount = 0
 		channel = 1
 	}
+
 	r := &ws2812Render{
 		baseRender: base,
 		options:    &options,
 		channel: channel,
 		strip: nil,
-		gamma: cfg.GetGamma(),
 	}
 
 	base.render = r

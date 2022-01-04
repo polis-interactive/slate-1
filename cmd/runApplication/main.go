@@ -27,7 +27,7 @@ func main() {
 		Ws2812Config: &application.Ws2812Config{
 			GpioPin:   types.GpioPinTypes.GPIO19,
 			StripType: types.StripTypes.WS2811GRB,
-			Gamma:     1.0,
+			Gamma:     1.2,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
 			ShaderName: "slate-1",
