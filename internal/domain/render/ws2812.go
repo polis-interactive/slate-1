@@ -9,6 +9,7 @@ import (
 
 type ws2812Render struct {
 	*baseRender
+	channel int
 	options *ws2811.Option
 	strip *ws2811.WS2811
 	gamma float32
@@ -26,12 +27,17 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 	options.Channels[0].GpioPin = int(pinNumber)
 	options.Channels[0].StripeType = int(cfg.GetStripType())
 	options.Channels[0].Brightness = 255
+	channel := 0
 	if pinNumber == 19 {
 		options.Channels = append([]ws2811.ChannelOption{{}}, options.Channels...)
+		options.Channels[0].GpioPin = 18
+		options.Channels[0].LedCount = 0
+		channel = 1
 	}
 	r := &ws2812Render{
 		baseRender: base,
 		options:    &options,
+		channel: channel,
 		strip: nil,
 		gamma: cfg.GetGamma(),
 	}
@@ -48,7 +54,7 @@ func (r *ws2812Render) runMainLoop() {
 
 	for {
 		err := func (r *ws2812Render) error {
-			r.options.Channels[0].LedCount = r.ledCount
+			r.options.Channels[r.channel].LedCount = r.ledCount
 			dev, err := ws2811.MakeWS2811(r.options)
 			if err != nil {
 				return err
@@ -87,7 +93,7 @@ CloseWs2812Loop:
 
 func (r *ws2812Render) runRender() error {
 
-	err := r.bus.CopyLightsToUint32Buffer(r.strip.Leds(0))
+	err := r.bus.CopyLightsToUint32Buffer(r.strip.Leds(r.channel))
 	if err != nil {
 		return err
 	}
