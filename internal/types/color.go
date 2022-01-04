@@ -41,6 +41,12 @@ func (pb *PixelBuffer) GetPixel(p *Point) Color {
 	return pb.buffer[mappedX + mappedY * pb.width]
 }
 
+func (pb *PixelBuffer) GetPixelPointer(p *Point) *Color {
+	mappedX := (p.X - pb.minX) * pb.stride
+	mappedY := (p.Y - pb.minY) * pb.stride
+	return &pb.buffer[mappedX + mappedY * pb.width]
+}
+
 func (pb *PixelBuffer) BlackOut() {
 	for i := range pb.buffer {
 		pb.buffer[i] = Color{}

@@ -49,7 +49,7 @@ CloseTerminalLoop:
 
 func (r *terminalRender) runRender() error {
 
-	err := r.bus.CopyLightsToBuffer(r.pb)
+	err := r.bus.CopyLightsToColorBuffer(r.pb)
 	if err != nil {
 		return err
 	}

@@ -81,9 +81,12 @@ CloseWs2812Loop:
 
 func (r *ws2812Render) runRender() error {
 
-	// grab leds from the bus? make them go through the graphics pipe?
+	err := r.bus.CopyLightsToUint32Buffer(r.strip.Leds(0))
+	if err != nil {
+		return err
+	}
 
-	err := r.strip.Render()
+	err = r.strip.Render()
 	return err
 }
 

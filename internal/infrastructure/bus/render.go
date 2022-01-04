@@ -24,3 +24,19 @@ func (b *bus) CopyLightsToBuffer(rawPbOut []types.Color) error {
 	}
 	return nil
 }
+
+func (b *bus) CopyLightsToUint32Buffer(rawUint32BuffOut []uint32) error {
+	lights, preLockedLightsMutex := b.lightingService.GetLights()
+	pbIn, preLockedGraphicsMutex := b.graphicsService.GetPb()
+	defer func (lightsMu *sync.RWMutex, graphicsMu *sync.RWMutex) {
+		lightsMu.RUnlock()
+		graphicsMu.RUnlock()
+	}(preLockedLightsMutex, preLockedGraphicsMutex)
+	for _, l := range lights {
+		if !l.Show {
+			continue
+		}
+		rawUint32BuffOut[l.Pixel] = pbIn.GetPixelPointer(&l.Position).ToBits()
+	}
+	return nil
+}
