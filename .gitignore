@@ -1,18 +1,16 @@
 
 /*
 
-!/bin
-
-/bin/*
-
 !/.gitignore
 
-!/addons.make
+!/go.mod
 
-!/Makefile
+!/go.sum
 
-!/src/
+!/cmd/
 
-!/bin/data
+!/data/
 
-!/bin/igs_points_parser
+!/deploy/
+
+!/internal/
