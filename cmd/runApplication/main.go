@@ -25,8 +25,8 @@ func main() {
 			RenderFrequency: 33 * time.Millisecond,
 		},
 		Ws2812Config: &application.Ws2812Config{
-			GpioPin:   types.GpioPinTypes.GPIO18,
-			StripType: types.StripTypes.WS2811BGR,
+			GpioPin:   types.GpioPinTypes.GPIO19,
+			StripType: types.StripTypes.WS2811GRB,
 			Gamma:     1.0,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
