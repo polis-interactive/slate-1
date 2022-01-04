@@ -4,6 +4,7 @@ import (
 	"github.com/polis-interactive/slate-1/data"
 	"github.com/polis-interactive/slate-1/internal/application"
 	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"os"
 	"os/signal"
@@ -23,10 +24,15 @@ func main() {
 			RenderType:      domain.RenderTypes.WS2812,
 			RenderFrequency: 33 * time.Millisecond,
 		},
+		Ws2812Config: &application.Ws2812Config{
+			GpioPin:   types.GpioPinTypes.GPIO18,
+			StripType: types.StripTypes.WS2811RBG,
+			Gamma:     1.2,
+		},
 		GraphicsConfig: &application.GraphicsConfig{
 			ShaderName: "slate-1",
-			ReloadOnUpdate: false,
 			DisplayOutput: false,
+			ReloadOnUpdate: false,
 			PixelSize: 1,
 			Frequency: 33 * time.Millisecond,
 		},

@@ -13,17 +13,18 @@ var TerminalDisallowedPositions = []types.Point{
 
 var PiBoardConfiguration = []types.BoardConfiguration{
 	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(0, 0)),
-	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(7, 0)),
-	types.NewBoardConfiguration(types.Board1x7, types.Orient270, types.CreatePoint(7, 1)),
+	types.NewBoardConfiguration(types.Board1x7, types.Orient270, types.CreatePoint(0, 1)),
+	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(0, 2)),
 }
 
 var PiDisallowedPositions = []types.Point{
 	types.CreatePoint(2, 0),
 	types.CreatePoint(3, 0),
-	types.CreatePoint(9, 0),
-	types.CreatePoint(10, 0),
-	types.CreatePoint(9, 1),
-	types.CreatePoint(10, 1),
+	types.CreatePoint(2, 1),
+	types.CreatePoint(3, 1),
+	types.CreatePoint(2, 2),
+	types.CreatePoint(3, 2),
+	types.CreatePoint(6, 2),
 }
 
 var DefaultBoardConfiguration = []types.BoardConfiguration{
