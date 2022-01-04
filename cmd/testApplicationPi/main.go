@@ -16,8 +16,8 @@ import (
 func main() {
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
-			BoardConfiguration:  data.DefaultBoardConfiguration,
-			DisallowedPositions: data.DefaultDisallowedPositions,
+			BoardConfiguration:  data.PiBoardConfiguration,
+			DisallowedPositions: data.PiDisallowedPositions,
 		},
 		RenderConfig: &application.RenderConfig{
 			RenderType:      domain.RenderTypes.WS2812,

@@ -1,6 +1,8 @@
 package graphics
 
 import (
+	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"sync"
 )
@@ -9,6 +11,8 @@ type service struct {
 	graphics *graphics
 	mu *sync.Mutex
 }
+
+var _ domain.GraphicsService = (*service)(nil)
 
 func NewService(cfg Config, bus Bus) (*service, error) {
 	log.Println("Graphics, NewService: creating")
@@ -50,4 +54,9 @@ func (s *service) Shutdown() {
 	if s.graphics != nil {
 		s.graphics.shutdown()
 	}
+}
+
+func (s *service) GetPb() (pb *types.PixelBuffer, preLockedMutex *sync.RWMutex) {
+	s.graphics.mu.RLock()
+	return s.graphics.pb, s.graphics.mu
 }

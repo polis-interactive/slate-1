@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/polis-interactive/slate-1/data"
 	"github.com/polis-interactive/slate-1/internal/application"
 	"github.com/polis-interactive/slate-1/internal/domain"
-	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"os"
 	"os/signal"
@@ -11,31 +11,22 @@ import (
 	"time"
 )
 
-var testConfiguration = []types.BoardConfiguration{
-	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(0, 0)),
-}
-
-var testDisallowed = []types.Point{
-	types.CreatePoint(2, 0),
-	types.CreatePoint(3, 0),
-}
-
 func main() {
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
-			BoardConfiguration:  testConfiguration,
-			DisallowedPositions: testDisallowed,
+			BoardConfiguration: data.TerminalBoardConfiguration,
+			DisallowedPositions: data.TerminalDisallowedPositions,
 		},
 		RenderConfig: &application.RenderConfig{
 			RenderType:      domain.RenderTypes.TERMINAL,
-			RenderFrequency: 10 * time.Second,
+			RenderFrequency: 1 * time.Second,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
 			ShaderName: "slate-1",
-			ReloadOnUpdate: true,
+			ReloadOnUpdate: false,
 			DisplayOutput: true,
 			PixelSize: 30,
-			Frequency: 20 * time.Millisecond,
+			Frequency: 33 * time.Millisecond,
 		},
 	}
 

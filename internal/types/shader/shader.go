@@ -44,8 +44,8 @@ type program struct {
 
 type GraphicsShader struct {
 	shaderPath string
-	width int
-	height int
+	width int32
+	height int32
 	window *windowProxy
 	program *program
 	startTime time.Time
@@ -55,49 +55,49 @@ func NewGraphicsShader(shaderPath string, width int, height int) (*GraphicsShade
 
 	runtime.LockOSThread()
 
-	panicQuit := func () {
-		runtime.UnlockOSThread()
-		glfwTerminate()
+	gs := &GraphicsShader{
+		shaderPath: shaderPath,
+		width:      int32(width),
+		height: int32(height),
+		startTime:  time.Now(),
 	}
+
 
 	err := glfwInit()
 	if err != nil {
-		panicQuit()
+		gs.Cleanup()
 		log.Fatalln("failed to inifitialize glfw:", err)
 		return nil, err
 	}
 
 	window, err := newWindow(shaderPath, width, height)
 	if err != nil {
-		panicQuit()
+		gs.Cleanup()
 		log.Fatalln("failed to create glfw window:", err)
 		return nil, err
 	}
 	window.MakeContextCurrent()
 
+	gs.window = window
+
 	err = glInit()
 	if err != nil {
-		panicQuit()
+		gs.Cleanup()
 		log.Fatalln("failed to create gl context:", err)
 		return nil, err
 	}
 
 	p, err := newProgram(shaderPath, float32(width), float32(height))
 	if err != nil {
-		panicQuit()
+		gs.Cleanup()
 		return nil, err
 	}
 
+	gs.program = p
+
 	window.SetKeyCallback(windowKeyCallback)
 
-	return &GraphicsShader{
-		shaderPath: shaderPath,
-		width: width,
-		height: height,
-		window: window,
-		program:   p,
-		startTime: time.Now(),
-	}, nil
+	return gs, nil
 }
 
 func (gs *GraphicsShader) ReloadShader() error {

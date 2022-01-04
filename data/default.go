@@ -2,6 +2,30 @@ package data
 
 import "github.com/polis-interactive/slate-1/internal/types"
 
+var TerminalBoardConfiguration = []types.BoardConfiguration{
+	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(0, 0)),
+}
+
+var TerminalDisallowedPositions = []types.Point{
+	types.CreatePoint(2, 0),
+	types.CreatePoint(3, 0),
+}
+
+var PiBoardConfiguration = []types.BoardConfiguration{
+	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(0, 0)),
+	types.NewBoardConfiguration(types.Board1x7, types.Orient90, types.CreatePoint(7, 0)),
+	types.NewBoardConfiguration(types.Board1x7, types.Orient270, types.CreatePoint(7, 1)),
+}
+
+var PiDisallowedPositions = []types.Point{
+	types.CreatePoint(2, 0),
+	types.CreatePoint(3, 0),
+	types.CreatePoint(9, 0),
+	types.CreatePoint(10, 0),
+	types.CreatePoint(9, 1),
+	types.CreatePoint(10, 1),
+}
+
 var DefaultBoardConfiguration = []types.BoardConfiguration{
 	// right singles
 	types.NewBoardConfiguration(types.Board1x7, types.Orient0, types.Point{X: 0, Y: 12}),

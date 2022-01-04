@@ -3,6 +3,7 @@ package graphics
 import (
 	"fmt"
 	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"github.com/polis-interactive/slate-1/internal/types/shader"
 	"log"
 	"sync"
@@ -11,11 +12,11 @@ import (
 
 type graphics struct {
 	fileHandle string
-	displayOutput bool
 	reloadOnUpdate bool
 	pixelSize int
 	graphicsFrequency time.Duration
 	gs *shader.GraphicsShader
+	pb *types.PixelBuffer
 	bus Bus
 	mu *sync.RWMutex
 	wg *sync.WaitGroup
@@ -30,13 +31,17 @@ func newGraphics(cfg Config, bus Bus) (*graphics, error) {
 		log.Fatalln(fmt.Sprintf("graphics, newGraphics: couldn't find shader %s", shaderName))
 		return nil, err
 	}
+	pixelSize := cfg.GetGraphicsPixelSize()
+	if !cfg.GetGraphicsDisplayOutput() {
+		pixelSize = 1
+	}
 	return &graphics{
 		fileHandle: fileHandle,
 		reloadOnUpdate: cfg.GetGraphicsReloadOnUpdate(),
-		displayOutput: cfg.GetGraphicsDisplayOutput(),
 		graphicsFrequency: cfg.GetGraphicsFrequency(),
-		pixelSize: cfg.GetGraphicsPixelSize(),
+		pixelSize: pixelSize,
 		gs: nil,
+		pb: nil,
 		bus: bus,
 		mu: &sync.RWMutex{},
 		wg: &sync.WaitGroup{},
@@ -95,10 +100,12 @@ func (g *graphics) runGraphicsLoop() error {
 	gridWidth := grid.MaxX - grid.MinX + 1
 	gridHeight := grid.MaxY - grid.MinY + 1
 
-	if g.displayOutput {
-		gridWidth = gridWidth * g.pixelSize
-		gridHeight = gridHeight * g.pixelSize
-	}
+	gridWidth = gridWidth * g.pixelSize
+	gridHeight = gridHeight * g.pixelSize
+
+	g.mu.Lock()
+	g.pb = types.NewPixelBuffer(gridWidth, gridHeight, grid.MinX, grid.MinY, g.pixelSize)
+	g.mu.Unlock()
 
 	gs, err := shader.NewGraphicsShader(g.fileHandle, gridWidth, gridHeight)
 	if err != nil {
@@ -106,13 +113,17 @@ func (g *graphics) runGraphicsLoop() error {
 	}
 
 	g.gs = gs
-	defer func() {
+
+	ticker := time.NewTicker(g.graphicsFrequency)
+
+	defer func(g *graphics, t *time.Ticker) {
+		t.Stop()
 		g.gs.Cleanup()
 		g.gs = nil
 		g.mu.Lock()
-		// black out pixels
+		g.pb.BlackOut()
 		g.mu.Unlock()
-	}()
+	}(g, ticker)
 
 	for {
 		select {
@@ -120,26 +131,22 @@ func (g *graphics) runGraphicsLoop() error {
 			if !ok {
 				return nil
 			}
-		case <-time.After(g.graphicsFrequency):
+		case <-ticker.C:
 			if g.reloadOnUpdate {
 				err = g.gs.ReloadShader()
 				if err != nil {
 					return err
 				}
 			}
-
 			err = g.gs.RunShader()
 			if err != nil {
 				return err
 			}
 			g.mu.Lock()
-			// copy to pixels
+			err = gs.ReadToPixels(g.pb.GetUnsafePointer())
 			g.mu.Unlock()
-			if g.displayOutput {
-				err = g.gs.DisplayShader()
-				if err != nil {
-					return err
-				}
+			if err != nil {
+				return err
 			}
 		}
 	}

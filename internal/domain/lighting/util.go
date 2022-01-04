@@ -49,6 +49,7 @@ func generateLights(boards []types.BoardConfiguration, disallowed []types.Point)
 
 			l := types.Light{
 				Position: position,
+				Pixel: 	  lastLight,
 				Show:     isAllowed,
 				Color:    types.Color{},
 			}

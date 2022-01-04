@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/polis-interactive/slate-1/internal/types"
+import (
+	"github.com/polis-interactive/slate-1/internal/types"
+	"sync"
+)
 
 const Program = "Slate-1"
 
@@ -32,9 +35,11 @@ type GraphicsService interface {
 	Startup()
 	Reset()
 	Shutdown()
+	GetPb() (pb *types.PixelBuffer, preLockedMutex *sync.RWMutex)
 }
 
 type LightingService interface {
 	GetLightCount() int
 	GetGrid() types.Grid
+	GetLights() (lights []types.Light, preLockedMutex *sync.RWMutex)
 }

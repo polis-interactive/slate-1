@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
+	"sync"
 )
 
 type Service struct {
 	lights []types.Light
 	lastLight int
 	grid types.Grid
+	mu *sync.RWMutex
 }
 
 func NewService(cfg Config) *Service {
@@ -35,17 +37,23 @@ func NewService(cfg Config) *Service {
 		lights:    lights,
 		lastLight: lastLight,
 		grid: grid,
+		mu: &sync.RWMutex{},
 	}
 }
 
 func (s *Service) GetLightCount() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	return s.lastLight
 }
 
 func (s *Service) GetGrid() types.Grid {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	return s.grid
 }
 
-func (s *Service) GetLights() []types.Light {
-	return s.lights
+func (s *Service) GetLights() (lights []types.Light, preLockedMutex *sync.RWMutex) {
+	s.mu.RLock()
+	return s.lights, s.mu
 }

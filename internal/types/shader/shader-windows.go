@@ -227,6 +227,12 @@ func createFillRect() uint32 {
 	return VAO
 }
 
+func (gs *GraphicsShader) ReadToPixels(pb unsafe.Pointer) error {
+	gl.ReadPixels(0, 0, gs.width, gs.height, gl.RGBA, gl.UNSIGNED_BYTE, pb)
+	// should probably check for error
+	return nil
+}
+
 
 
 func getGlError(glHandle uint32, checkTrueParam uint32, getObjIvFn getObjIv,

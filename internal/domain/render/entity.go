@@ -79,13 +79,19 @@ func (r *baseRender) runRenderLoop() error {
 		r.bus.SendRenderStateUpdate(false)
 	}()
 	 */
+
+	ticker := time.NewTicker(r.renderFrequency)
+	defer func(t *time.Ticker) {
+		t.Stop()
+	}(ticker)
+
 	for {
 		select {
 		case _, ok := <-r.shutdowns:
 			if !ok {
 				return nil
 			}
-		case <-time.After(r.renderFrequency):
+		case  <-ticker.C:
 			err := r.render.runRender()
 			if err != nil {
 				return err
