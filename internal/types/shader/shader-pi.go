@@ -1,3 +1,4 @@
+
 // +build !windows
 
 package shader
@@ -26,13 +27,13 @@ func glfwTerminate() {
 
 
 func glInit() error {
-	return gl.Init()
+	return gles2.Init()
 }
 
 func stepGraphics() {
 	glfw.PollEvents()
-	gl.ClearColor(0.2, 0.2, 0.2, 1.0)
-	gl.Clear(gl.COLOR_BUFFER_BIT)
+	gles2.ClearColor(0.2, 0.2, 0.2, 1.0)
+	gles2.Clear(gles2.COLOR_BUFFER_BIT)
 }
 
 
@@ -52,7 +53,7 @@ func newWindow(shaderPath string, width int, height int) (*windowProxy, error) {
 }
 
 func windowKeyCallback(
-	window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey,
+	window *glfw.Window, key glfw.Key, _ int, action glfw.Action, _ glfw.ModifierKey,
 ) {
 	if key == glfw.KeyEscape && action == glfw.Press {
 		window.SetShouldClose(true)
@@ -62,18 +63,18 @@ func windowKeyCallback(
 
 
 func newProgram(fileBase string, width float32, height float32) (*program, error) {
-	vertexShader, err := newShaderFromFile(fileBase + ".vert", gl.VERTEX_SHADER)
+	vertexShader, err := newShaderFromFile(fileBase + ".vert", gles2.VERTEX_SHADER)
 	if err != nil {
 		log.Println("Couldn't compile vertex shader")
 		return nil, err
 	}
-	fragmentShader, err := newShaderFromFile(fileBase + ".frag", gl.FRAGMENT_SHADER)
+	fragmentShader, err := newShaderFromFile(fileBase + ".frag", gles2.FRAGMENT_SHADER)
 	if err != nil {
 		log.Println("Couldn't compile fragment shader")
 		return nil, err
 	}
 	prog := &program{
-		handle:gl.CreateProgram(),
+		handle:gles2.CreateProgram(),
 	}
 	prog.attach(*vertexShader, *fragmentShader)
 
@@ -94,23 +95,23 @@ func (p *program) delete() {
 	for _, s := range p.shaders {
 		s.delete()
 	}
-	gl.DeleteProgram(p.handle)
+	gles2.DeleteProgram(p.handle)
 }
 
 func (p *program) attach(shaders ...shader) {
 	for _, s := range shaders {
-		gl.AttachShader(p.handle, s.handle)
+		gles2.AttachShader(p.handle, s.handle)
 		p.shaders = append(p.shaders, s)
 	}
 }
 
 func (p *program) use() {
-	gl.UseProgram(p.handle)
+	gles2.UseProgram(p.handle)
 }
 
 func (p *program) link() error {
-	gl.LinkProgram(p.handle)
-	return getGlError(p.handle, gl.LINK_STATUS, gl.GetProgramiv, gl.GetProgramInfoLog,
+	gles2.LinkProgram(p.handle)
+	return getGlError(p.handle, gles2.LINK_STATUS, gles2.GetProgramiv, gles2.GetProgramInfoLog,
 		"PROGRAM::LINKING_FAILURE")
 }
 
@@ -119,31 +120,31 @@ func (p *program) runProgram(start time.Time) error {
 	duration := time.Since(start)
 	p.setUniform1f("time", float32(duration.Seconds()))
 	p.setUniform2fv("resolution", []float32{p.width, p.height}, 1)
-	gl.BindVertexArray(p.rectHandle)
-	gl.DrawElements(gl.TRIANGLE_FAN, 4, gl.UNSIGNED_INT, unsafe.Pointer(nil))
-	gl.BindVertexArray(0)
+	gles2.BindVertexArray(p.rectHandle)
+	gles2.DrawElements(gles2.TRIANGLE_FAN, 4, gles2.UNSIGNED_INT, unsafe.Pointer(nil))
+	gles2.BindVertexArray(0)
 	// should probably check for an error here, not sure what tho
 	return nil
 }
 
 func (p *program) setUniform1f(name string, value float32) {
 	chars := []uint8(name)
-	loc := gl.GetUniformLocation(p.handle, &chars[0])
+	loc := gles2.GetUniformLocation(p.handle, &chars[0])
 	if loc == -1 {
 		log.Println(fmt.Sprintf("Couldn't find uniform 1f %s", name))
 		return
 	}
-	gl.Uniform1f(loc, value)
+	gles2.Uniform1f(loc, value)
 }
 
 func (p *program) setUniform2fv(name string, value []float32, count int32) {
 	chars := []uint8(name)
-	loc := gl.GetUniformLocation(p.handle, &chars[0])
+	loc := gles2.GetUniformLocation(p.handle, &chars[0])
 	if loc == -1 {
 		log.Println(fmt.Sprintf("Couldn't find uniform 2f %s", name))
 		return
 	}
-	gl.Uniform2fv(loc, count, &value[0])
+	gles2.Uniform2fv(loc, count, &value[0])
 }
 
 
@@ -153,12 +154,12 @@ func newShaderFromFile(file string, sType uint32) (*shader, error) {
 	if err != nil {
 		return nil, err
 	}
-	handle := gl.CreateShader(sType)
-	glSrc, freeFn := gl.Strs(string(src) + "\x00")
+	handle := gles2.CreateShader(sType)
+	glSrc, freeFn := gles2.Strs(string(src) + "\x00")
 	defer freeFn()
-	gl.ShaderSource(handle, 1, glSrc, nil)
-	gl.CompileShader(handle)
-	err = getGlError(handle, gl.COMPILE_STATUS, gl.GetShaderiv, gl.GetShaderInfoLog,
+	gles2.ShaderSource(handle, 1, glSrc, nil)
+	gles2.CompileShader(handle)
+	err = getGlError(handle, gles2.COMPILE_STATUS, gles2.GetShaderiv, gles2.GetShaderInfoLog,
 		"SHADER::COMPILE_FAILURE::" + file)
 	if err != nil {
 		return nil, err
@@ -167,7 +168,7 @@ func newShaderFromFile(file string, sType uint32) (*shader, error) {
 }
 
 func (s *shader) delete() {
-	gl.DeleteShader(s.handle)
+	gles2.DeleteShader(s.handle)
 }
 
 
@@ -197,31 +198,31 @@ func createFillRect() uint32 {
 	}
 
 	var VAO uint32
-	gl.GenVertexArrays(1, &VAO)
+	gles2.GenVertexArrays(1, &VAO)
 
 	var VBO uint32
-	gl.GenBuffers(1, &VBO)
+	gles2.GenBuffers(1, &VBO)
 
-	var EBO uint32;
-	gl.GenBuffers(1, &EBO)
+	var EBO uint32
+	gles2.GenBuffers(1, &EBO)
 
 	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointers()
-	gl.BindVertexArray(VAO)
+	gles2.BindVertexArray(VAO)
 
 	// copy vertices data into VBO (it needs to be bound first)
-	gl.BindBuffer(gl.ARRAY_BUFFER, VBO)
-	gl.BufferData(gl.ARRAY_BUFFER, len(vertices)*4, gl.Ptr(vertices), gl.STATIC_DRAW)
+	gles2.BindBuffer(gles2.ARRAY_BUFFER, VBO)
+	gles2.BufferData(gles2.ARRAY_BUFFER, len(vertices)*4, gles2.Ptr(vertices), gles2.STATIC_DRAW)
 
 	// copy indices into element buffer
-	gl.BindBuffer(gl.ELEMENT_ARRAY_BUFFER, EBO)
-	gl.BufferData(gl.ELEMENT_ARRAY_BUFFER, len(indices)*4, gl.Ptr(indices), gl.STATIC_DRAW)
+	gles2.BindBuffer(gles2.ELEMENT_ARRAY_BUFFER, EBO)
+	gles2.BufferData(gles2.ELEMENT_ARRAY_BUFFER, len(indices)*4, gles2.Ptr(indices), gles2.STATIC_DRAW)
 
 	// position
-	gl.VertexAttribPointer(0, 3, gl.FLOAT, false, 6*4, gl.PtrOffset(0))
-	gl.EnableVertexAttribArray(0)
+	gles2.VertexAttribPointer(0, 3, gles2.FLOAT, false, 6*4, gles2.PtrOffset(0))
+	gles2.EnableVertexAttribArray(0)
 
 	// unbind the VAO (safe practice so we don't accidentally (mis)configure it later)
-	gl.BindVertexArray(0)
+	gles2.BindVertexArray(0)
 
 	// should probably check for an error here, not sure what tho
 
@@ -229,7 +230,7 @@ func createFillRect() uint32 {
 }
 
 func (gs *GraphicsShader) ReadToPixels(pb unsafe.Pointer) error {
-	gl.ReadPixels(0, 0, gs.width, gs.height, gl.RGBA, gl.UNSIGNED_BYTE, pb)
+	gles2.ReadPixels(0, 0, gs.width, gs.height, gles2.RGBA, gles2.UNSIGNED_BYTE, pb)
 	// should probably check for error
 	return nil
 }
@@ -242,14 +243,14 @@ func getGlError(glHandle uint32, checkTrueParam uint32, getObjIvFn getObjIv,
 	var success int32
 	getObjIvFn(glHandle, checkTrueParam, &success)
 
-	if success == gl.FALSE {
+	if success == gles2.FALSE {
 		var logLength int32
-		getObjIvFn(glHandle, gl.INFO_LOG_LENGTH, &logLength)
+		getObjIvFn(glHandle, gles2.INFO_LOG_LENGTH, &logLength)
 
-		log := gl.Str(strings.Repeat("\x00", int(logLength)))
-		getObjInfoLogFn(glHandle, logLength, nil, log)
+		outMsg := gles2.Str(strings.Repeat("\x00", int(logLength)))
+		getObjInfoLogFn(glHandle, logLength, nil, outMsg)
 
-		return fmt.Errorf("%s: %s", failMsg, gl.GoStr(log))
+		return fmt.Errorf("%s: %s", failMsg, gles2.GoStr(outMsg))
 	}
 
 	return nil

@@ -51,7 +51,7 @@ func newWindow(shaderPath string, width int, height int) (*windowProxy, error) {
 }
 
 func windowKeyCallback(
-	window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey,
+	window *glfw.Window, key glfw.Key, _ int, action glfw.Action, _ glfw.ModifierKey,
 ) {
 	if key == glfw.KeyEscape && action == glfw.Press {
 		window.SetShouldClose(true)
@@ -201,7 +201,7 @@ func createFillRect() uint32 {
 	var VBO uint32
 	gl.GenBuffers(1, &VBO)
 
-	var EBO uint32;
+	var EBO uint32
 	gl.GenBuffers(1, &EBO)
 
 	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointers()
@@ -245,10 +245,10 @@ func getGlError(glHandle uint32, checkTrueParam uint32, getObjIvFn getObjIv,
 		var logLength int32
 		getObjIvFn(glHandle, gl.INFO_LOG_LENGTH, &logLength)
 
-		log := gl.Str(strings.Repeat("\x00", int(logLength)))
-		getObjInfoLogFn(glHandle, logLength, nil, log)
+		outMsg := gl.Str(strings.Repeat("\x00", int(logLength)))
+		getObjInfoLogFn(glHandle, logLength, nil, outMsg)
 
-		return fmt.Errorf("%s: %s", failMsg, gl.GoStr(log))
+		return fmt.Errorf("%s: %s", failMsg, gl.GoStr(outMsg))
 	}
 
 	return nil
