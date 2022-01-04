@@ -24,6 +24,7 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 	options := ws2811.DefaultOptions
 	options.Channels[0].GpioPin = int(cfg.GetGpioPin())
 	options.Channels[0].StripeType = int(cfg.GetStripType())
+	options.Channels[0].Brightness = 255
 	r := &ws2812Render{
 		baseRender: base,
 		options:    &options,
