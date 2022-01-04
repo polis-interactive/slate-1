@@ -20,10 +20,15 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 
 	log.Println("ws2812Render, newWs2812Render: creating")
 
+	pinNumber := cfg.GetGpioPin()
+
 	options := ws2811.DefaultOptions
-	options.Channels[0].GpioPin = int(cfg.GetGpioPin())
+	options.Channels[0].GpioPin = int(pinNumber)
 	options.Channels[0].StripeType = int(cfg.GetStripType())
 	options.Channels[0].Brightness = 255
+	if pinNumber == 19 {
+		options.Channels = append([]ws2811.ChannelOption{{}}, options.Channels...)
+	}
 	r := &ws2812Render{
 		baseRender: base,
 		options:    &options,
