@@ -27,6 +27,7 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 	options.Channels[0].GpioPin = int(pinNumber)
 	options.Channels[0].StripeType = int(cfg.GetStripType())
 	options.Channels[0].Brightness = 255
+	options.Channels[0].Gamma = nil
 	channel := 0
 	if pinNumber == 19 {
 		options.Channels = append([]ws2811.ChannelOption{{}}, options.Channels...)
@@ -59,6 +60,7 @@ func (r *ws2812Render) runMainLoop() {
 			if err != nil {
 				return err
 			}
+			dev.SetBrightness(r.channel, 255)
 			err = dev.Init()
 			if err != nil {
 				return err
