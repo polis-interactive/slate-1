@@ -9,7 +9,7 @@ func (b *bus) GetLightCount() int {
 	return b.lightingService.GetLightCount()
 }
 
-func (b *bus) CopyLightsToBuffer(rawPbOut []types.Color) error {
+func (b *bus) CopyLightsToColorBuffer(rawPbOut []types.Color) error {
 	lights, preLockedLightsMutex := b.lightingService.GetLights()
 	pbIn, preLockedGraphicsMutex := b.graphicsService.GetPb()
 	defer func (lightsMu *sync.RWMutex, graphicsMu *sync.RWMutex) {
