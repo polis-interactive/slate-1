@@ -11,3 +11,5 @@
     - sudo go get -u -tags=gles2 github.com/go-gl/glfw/v3.3/glfw
 - Add go path to sudo
     - visudo, add secure_path="...:/usr/local/go/bin"
+- Build
+    - go build ./cmd/runApplication/main.go 
