@@ -2,6 +2,7 @@ package types
 
 import (
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
+	"math"
 )
 
 type GpioPinType int
@@ -71,4 +72,15 @@ var StripTypes = struct {
 	SK6812GBRW: sk6812gbrw,
 	SK6812BRGW: sk6812brgw,
 	SK6812BGRW: sk6812bgrw,
+}
+
+func MakeGammaTable(gamma float64) []byte {
+	gt := make([]byte, 256)
+	gmdMax := math.Pow(255, gamma)
+	for i := 0; i < 256; i ++ {
+		gmd := math.Pow(float64(i), gamma)
+		gmdNorm := math.Round(gmd / gmdMax * 255.0)
+		gt[i] = byte(math.Min(255.0, gmdNorm))
+	}
+	return gt
 }
