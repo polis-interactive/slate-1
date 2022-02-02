@@ -27,7 +27,7 @@ func newButton(conf Config, bus Bus) (*button, error) {
 	var impl buttonImpl
 	var err error
 	if conf.GetButtonIsGpio() {
-		impl, err = newGpioButton(conf.GetButtonSetup(), b)
+		impl, err = newGpioButton(conf, b)
 	} else {
 		impl, err = newKeyboardButton(conf.GetButtonSetup(), b)
 	}
