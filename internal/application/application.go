@@ -1,6 +1,7 @@
 package application
 
 import (
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/graphics"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/lighting"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/render"
@@ -10,11 +11,10 @@ import (
 )
 
 type Application struct {
-	serviceBus applicationBus
+	serviceBus   applicationBus
 	shutdown     bool
 	shutdownLock sync.Mutex
 }
-
 
 func NewApplication(conf *Config) (*Application, error) {
 
@@ -46,6 +46,13 @@ func NewApplication(conf *Config) (*Application, error) {
 		return nil, err
 	}
 	app.serviceBus.BindGraphicsService(graphicsService)
+
+	buttonService, err := button.NewService(conf, app.serviceBus)
+	if err != nil {
+		log.Fatalf("Application, NewApplication: failed to initialize button service")
+		return nil, err
+	}
+	app.serviceBus.BindButtonService(buttonService)
 
 	return app, nil
 }

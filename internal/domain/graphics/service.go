@@ -9,7 +9,7 @@ import (
 
 type service struct {
 	graphics *graphics
-	mu *sync.Mutex
+	mu       *sync.Mutex
 }
 
 var _ domain.GraphicsService = (*service)(nil)
@@ -24,7 +24,7 @@ func NewService(cfg Config, bus Bus) (*service, error) {
 	}
 	return &service{
 		graphics: g,
-		mu: &sync.Mutex{},
+		mu:       &sync.Mutex{},
 	}, nil
 }
 
@@ -59,4 +59,11 @@ func (s *service) Shutdown() {
 func (s *service) GetPb() (pb *types.PixelBuffer, preLockedMutex *sync.RWMutex) {
 	s.graphics.mu.RLock()
 	return s.graphics.pb, s.graphics.mu
+}
+
+func (s *service) HandleButtonPush() (isOff bool) {
+	s.graphics.mu.Lock()
+	defer s.graphics.mu.Unlock()
+	s.graphics.isOff = !s.graphics.isOff
+	return s.graphics.isOff
 }

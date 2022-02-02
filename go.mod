@@ -9,4 +9,7 @@ require (
 	github.com/go-gl/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	periph.io/x/conn/v3 v3.6.10 // indirect
+	periph.io/x/host v0.0.1 // indirect
+	periph.io/x/host/v3 v3.7.2 // indirect
 )

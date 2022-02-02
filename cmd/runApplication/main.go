@@ -4,6 +4,7 @@ import (
 	"github.com/polis-interactive/slate-italian-plumber-1/data"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/application"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 	"log"
 	"os"
@@ -11,8 +12,6 @@ import (
 	"syscall"
 	"time"
 )
-
-
 
 func main() {
 	conf := &application.Config{
@@ -30,11 +29,18 @@ func main() {
 			Gamma:     1.2,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
-			ShaderName: "slate-1",
+			ShaderName:     "slate-1",
 			ReloadOnUpdate: false,
-			DisplayOutput: false,
-			PixelSize: 1,
-			Frequency: 33 * time.Millisecond,
+			DisplayOutput:  false,
+			PixelSize:      1,
+			Frequency:      33 * time.Millisecond,
+		},
+		ButtonConfig: &application.ButtonConfig{
+			ButtonIsGpio: true,
+			ButtonSetup: &button.Setup{
+				KeyOrGpioIn: 14,
+			},
+			ReadFrequency: 250 * time.Millisecond,
 		},
 	}
 
@@ -62,4 +68,3 @@ func main() {
 		log.Println("Main: issue shutting down; ", err)
 	}
 }
-

@@ -18,10 +18,10 @@ const (
 
 var RenderTypes = struct {
 	WS2812   RenderType
-	TERMINAL  RenderType
+	TERMINAL RenderType
 }{
-	WS2812:    ws2812Render,
-	TERMINAL:  terminalRender,
+	WS2812:   ws2812Render,
+	TERMINAL: terminalRender,
 }
 
 type RenderService interface {
@@ -30,12 +30,17 @@ type RenderService interface {
 	Shutdown()
 }
 
-
 type GraphicsService interface {
 	Startup()
 	Reset()
 	Shutdown()
 	GetPb() (pb *types.PixelBuffer, preLockedMutex *sync.RWMutex)
+	HandleButtonPush() (isOff bool)
+}
+
+type ButtonService interface {
+	Startup()
+	Shutdown()
 }
 
 type LightingService interface {

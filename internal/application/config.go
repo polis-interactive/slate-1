@@ -2,12 +2,13 @@ package application
 
 import (
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
 	"time"
 )
 
 type LightingConfig struct {
-	BoardConfiguration []types.BoardConfiguration
+	BoardConfiguration  []types.BoardConfiguration
 	DisallowedPositions []types.Point
 }
 
@@ -19,10 +20,8 @@ func (l *LightingConfig) GetDisallowedPositions() []types.Point {
 	return l.DisallowedPositions
 }
 
-
-
 type RenderConfig struct {
-	RenderType domain.RenderType
+	RenderType      domain.RenderType
 	RenderFrequency time.Duration
 }
 
@@ -33,8 +32,6 @@ func (r *RenderConfig) GetRenderType() domain.RenderType {
 func (r *RenderConfig) GetRenderFrequency() time.Duration {
 	return r.RenderFrequency
 }
-
-
 
 type Ws2812Config struct {
 	GpioPin   types.GpioPinType
@@ -54,14 +51,12 @@ func (w *Ws2812Config) GetGamma() float32 {
 	return w.Gamma
 }
 
-
-
 type GraphicsConfig struct {
-	ShaderName string
-	DisplayOutput bool
+	ShaderName     string
+	DisplayOutput  bool
 	ReloadOnUpdate bool
-	PixelSize int
-	Frequency time.Duration
+	PixelSize      int
+	Frequency      time.Duration
 }
 
 func (g *GraphicsConfig) GetGraphicsShaderName() string {
@@ -84,16 +79,27 @@ func (g *GraphicsConfig) GetGraphicsFrequency() time.Duration {
 	return g.Frequency
 }
 
+type ButtonConfig struct {
+	ButtonIsGpio  bool
+	ButtonSetup   *button.Setup
+	ReadFrequency time.Duration
+}
 
+func (b *ButtonConfig) GetButtonIsGpio() bool {
+	return b.ButtonIsGpio
+}
+func (b *ButtonConfig) GetButtonSetup() *button.Setup {
+	return b.ButtonSetup
+}
 
+func (b *ButtonConfig) GetReadFrequency() time.Duration {
+	return b.ReadFrequency
+}
 
 type Config struct {
 	*LightingConfig
 	*RenderConfig
 	*Ws2812Config
 	*GraphicsConfig
+	*ButtonConfig
 }
-
-
-
-

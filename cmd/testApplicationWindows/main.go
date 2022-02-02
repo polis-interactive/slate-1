@@ -4,6 +4,7 @@ import (
 	"github.com/polis-interactive/slate-italian-plumber-1/data"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/application"
 	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
 	"log"
 	"os"
 	"os/signal"
@@ -14,7 +15,7 @@ import (
 func main() {
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
-			BoardConfiguration: data.TerminalBoardConfiguration,
+			BoardConfiguration:  data.TerminalBoardConfiguration,
 			DisallowedPositions: data.TerminalDisallowedPositions,
 		},
 		RenderConfig: &application.RenderConfig{
@@ -22,11 +23,17 @@ func main() {
 			RenderFrequency: 1 * time.Second,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
-			ShaderName: "slate-1",
+			ShaderName:     "slate-1",
 			ReloadOnUpdate: false,
-			DisplayOutput: true,
-			PixelSize: 30,
-			Frequency: 33 * time.Millisecond,
+			DisplayOutput:  true,
+			PixelSize:      30,
+			Frequency:      33 * time.Millisecond,
+		},
+		ButtonConfig: &application.ButtonConfig{
+			ButtonIsGpio: false,
+			ButtonSetup: &button.Setup{
+				KeyOrGpioIn: 1,
+			},
 		},
 	}
 

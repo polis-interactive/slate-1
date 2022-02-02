@@ -10,9 +10,10 @@ import (
 
 type ws2812Render struct {
 	*baseRender
+	lastOff bool
 	channel int
 	options *ws2811.Option
-	strip *ws2811.WS2811
+	strip   *ws2811.WS2811
 }
 
 var _ render = (*ws2812Render)(nil)
@@ -33,7 +34,7 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 		options.Channels[0].Gamma = types.MakeGammaTable(float64(cfg.GetGamma()))
 	}
 	if pinNumber == types.GpioPinTypes.GPIO19 ||
-			pinNumber == types.GpioPinTypes.GPIO13 {
+		pinNumber == types.GpioPinTypes.GPIO13 {
 		options.Channels = append([]ws2811.ChannelOption{{}}, options.Channels...)
 		options.Channels[0].GpioPin = 18
 		options.Channels[0].LedCount = 0
@@ -43,8 +44,9 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 	r := &ws2812Render{
 		baseRender: base,
 		options:    &options,
-		channel: channel,
-		strip: nil,
+		channel:    channel,
+		lastOff:    true,
+		strip:      nil,
 	}
 
 	base.render = r
@@ -58,7 +60,7 @@ func (r *ws2812Render) runMainLoop() {
 	log.Println("ws2812Render, Main Loop: running")
 
 	for {
-		err := func (r *ws2812Render) error {
+		err := func(r *ws2812Render) error {
 			r.options.Channels[r.channel].LedCount = r.ledCount
 			dev, err := ws2811.MakeWS2811(r.options)
 			if err != nil {
@@ -83,7 +85,7 @@ func (r *ws2812Render) runMainLoop() {
 			log.Println(fmt.Sprintf("ws2812Render, Main Loop: received error; %s", err.Error()))
 		}
 		select {
-		case _, ok := <- r.shutdowns:
+		case _, ok := <-r.shutdowns:
 			if !ok {
 				goto CloseWs2812Loop
 			}
@@ -99,10 +101,15 @@ CloseWs2812Loop:
 
 func (r *ws2812Render) runRender() error {
 
-	err := r.bus.CopyLightsToUint32Buffer(r.strip.Leds(r.channel))
+	isOff, err := r.bus.CopyLightsToUint32Buffer(r.strip.Leds(r.channel))
 	if err != nil {
 		return err
 	}
+
+	if r.lastOff && isOff {
+		return nil
+	}
+	r.lastOff = isOff
 
 	err = r.strip.Render()
 	return err

@@ -11,16 +11,17 @@ import (
 )
 
 type graphics struct {
-	fileHandle string
-	reloadOnUpdate bool
-	pixelSize int
+	fileHandle        string
+	reloadOnUpdate    bool
+	pixelSize         int
 	graphicsFrequency time.Duration
-	gs *shader.GraphicsShader
-	pb *types.PixelBuffer
-	bus Bus
-	mu *sync.RWMutex
-	wg *sync.WaitGroup
-	shutdowns chan struct{}
+	gs                *shader.GraphicsShader
+	pb                *types.PixelBuffer
+	bus               Bus
+	mu                *sync.RWMutex
+	wg                *sync.WaitGroup
+	isOff             bool
+	shutdowns         chan struct{}
 }
 
 func newGraphics(cfg Config, bus Bus) (*graphics, error) {
@@ -36,15 +37,16 @@ func newGraphics(cfg Config, bus Bus) (*graphics, error) {
 		pixelSize = 1
 	}
 	return &graphics{
-		fileHandle: fileHandle,
-		reloadOnUpdate: cfg.GetGraphicsReloadOnUpdate(),
+		fileHandle:        fileHandle,
+		reloadOnUpdate:    cfg.GetGraphicsReloadOnUpdate(),
 		graphicsFrequency: cfg.GetGraphicsFrequency(),
-		pixelSize: pixelSize,
-		gs: nil,
-		pb: nil,
-		bus: bus,
-		mu: &sync.RWMutex{},
-		wg: &sync.WaitGroup{},
+		pixelSize:         pixelSize,
+		gs:                nil,
+		pb:                nil,
+		bus:               bus,
+		isOff:             false,
+		mu:                &sync.RWMutex{},
+		wg:                &sync.WaitGroup{},
 	}, nil
 }
 
@@ -80,7 +82,7 @@ func (g *graphics) runMainLoop() {
 			log.Println(fmt.Sprintf("Graphics, Main Loop: received error; %s", err.Error()))
 		}
 		select {
-		case _, ok := <- g.shutdowns:
+		case _, ok := <-g.shutdowns:
 			if !ok {
 				goto CloseMainLoop
 			}
@@ -132,6 +134,10 @@ func (g *graphics) runGraphicsLoop() error {
 				return nil
 			}
 		case <-ticker.C:
+			if g.isOff {
+				g.pb.BlackOut()
+				continue
+			}
 			if g.reloadOnUpdate {
 				err = g.gs.ReloadShader()
 				if err != nil {
