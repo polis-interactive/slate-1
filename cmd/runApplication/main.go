@@ -40,7 +40,7 @@ func main() {
 			ButtonSetup: &button.Setup{
 				KeyOrGpioIn: 14,
 			},
-			ReadFrequency: 250 * time.Millisecond,
+			ReadFrequency: 75 * time.Millisecond,
 		},
 	}
 
