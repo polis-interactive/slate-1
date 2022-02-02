@@ -6,6 +6,7 @@ import (
 	"log"
 	"periph.io/x/conn/v3/gpio"
 	"periph.io/x/conn/v3/gpio/gpioreg"
+	"periph.io/x/host/v3"
 	"time"
 )
 
@@ -25,6 +26,11 @@ func newGpioButton(conf Config, b *button) (*gpioButton, error) {
 		lastButtonWasPressed: false,
 		readFrequency:        conf.GetReadFrequency(),
 	}
+	_, err := host.Init()
+	if err != nil {
+		log.Println("Control, NewService: Failed to initialize GPIO")
+		return nil, err
+	}
 	pinString := fmt.Sprintf("GPIO%d", g.pin)
 	g.gpio = gpioreg.ByName(pinString)
 	if g.gpio == nil {
@@ -32,7 +38,7 @@ func newGpioButton(conf Config, b *button) (*gpioButton, error) {
 		log.Println(err)
 		return nil, errors.New(err)
 	}
-	err := g.gpio.In(gpio.PullUp, gpio.NoEdge)
+	err = g.gpio.In(gpio.PullUp, gpio.NoEdge)
 	if err != nil {
 		log.Print(fmt.Sprintf("Toggle, initialize: failed to initialize %s", pinString))
 		return nil, err
