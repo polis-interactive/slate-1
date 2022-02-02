@@ -8,6 +8,8 @@ require (
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
 	github.com/go-gl/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
+	github.com/julienschmidt/httprouter v1.3.0 // indirect
+	github.com/pborges/huejack v0.0.0-20181028163452-4bd1e5447b88 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	periph.io/x/conn/v3 v3.6.10 // indirect
 	periph.io/x/host v0.0.1 // indirect
