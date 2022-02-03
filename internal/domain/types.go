@@ -1,11 +1,11 @@
 package domain
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"sync"
 )
 
-const Program = "slate-italian-plumber-1"
+const Program = "slate-1"
 
 type RenderState bool
 
@@ -36,6 +36,7 @@ type GraphicsService interface {
 	Shutdown()
 	GetPb() (pb *types.PixelBuffer, preLockedMutex *sync.RWMutex)
 	HandleButtonPush() (isOff bool)
+	HandleSetState(isOff bool)
 }
 
 type ButtonService interface {
@@ -47,4 +48,9 @@ type LightingService interface {
 	GetLightCount() int
 	GetGrid() types.Grid
 	GetLights() (lights []types.Light, preLockedMutex *sync.RWMutex)
+}
+
+type ControlService interface {
+	Startup()
+	Shutdown()
 }

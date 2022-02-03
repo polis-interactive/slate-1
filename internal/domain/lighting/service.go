@@ -2,16 +2,16 @@ package lighting
 
 import (
 	"fmt"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"sync"
 )
 
 type Service struct {
-	lights []types.Light
+	lights    []types.Light
 	lastLight int
-	grid types.Grid
-	mu *sync.RWMutex
+	grid      types.Grid
+	mu        *sync.RWMutex
 }
 
 func NewService(cfg Config) *Service {
@@ -27,17 +27,16 @@ func NewService(cfg Config) *Service {
 
 	log.Println(fmt.Sprintf(
 		"MinP (%d, %d); MaxP (%d, %d); last led %d",
-		grid.MinX, grid.MinY, grid.MaxX, grid.MaxY,lastLight,
+		grid.MinX, grid.MinY, grid.MaxX, grid.MaxY, lastLight,
 	))
-
 
 	log.Println("Lighting, NewService: created")
 
 	return &Service{
 		lights:    lights,
 		lastLight: lastLight,
-		grid: grid,
-		mu: &sync.RWMutex{},
+		grid:      grid,
+		mu:        &sync.RWMutex{},
 	}
 }
 

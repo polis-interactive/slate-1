@@ -2,9 +2,9 @@ package graphics
 
 import (
 	"fmt"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types/shader"
+	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/types"
+	"github.com/polis-interactive/slate-1/internal/types/shader"
 	"log"
 	"sync"
 	"time"
@@ -44,7 +44,7 @@ func newGraphics(cfg Config, bus Bus) (*graphics, error) {
 		gs:                nil,
 		pb:                nil,
 		bus:               bus,
-		isOff:             false,
+		isOff:             true,
 		mu:                &sync.RWMutex{},
 		wg:                &sync.WaitGroup{},
 	}, nil

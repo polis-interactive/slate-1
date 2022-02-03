@@ -1,7 +1,7 @@
 package button
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/domain"
 	"log"
 	"sync"
 )
@@ -27,7 +27,7 @@ func NewService(cfg Config, bus Bus) (*service, error) {
 	}, nil
 }
 
-func (s service) Startup() {
+func (s *service) Startup() {
 	log.Println("RenderService Startup: starting")
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -36,7 +36,7 @@ func (s service) Startup() {
 	}
 }
 
-func (s service) Shutdown() {
+func (s *service) Shutdown() {
 	log.Println("RenderService Shutdown: shutting down")
 	s.mu.Lock()
 	defer s.mu.Unlock()

@@ -1,11 +1,12 @@
 package application
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/graphics"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/lighting"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/render"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/infrastructure/bus"
+	"github.com/polis-interactive/slate-1/internal/domain/button"
+	"github.com/polis-interactive/slate-1/internal/domain/control"
+	"github.com/polis-interactive/slate-1/internal/domain/graphics"
+	"github.com/polis-interactive/slate-1/internal/domain/lighting"
+	"github.com/polis-interactive/slate-1/internal/domain/render"
+	"github.com/polis-interactive/slate-1/internal/infrastructure/bus"
 	"log"
 	"sync"
 )
@@ -53,6 +54,9 @@ func NewApplication(conf *Config) (*Application, error) {
 		return nil, err
 	}
 	app.serviceBus.BindButtonService(buttonService)
+
+	controlService := control.NewService(conf, app.serviceBus)
+	app.serviceBus.BindControlService(controlService)
 
 	return app, nil
 }

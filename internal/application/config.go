@@ -1,9 +1,9 @@
 package application
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/domain/button"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"time"
 )
 
@@ -96,10 +96,19 @@ func (b *ButtonConfig) GetReadFrequency() time.Duration {
 	return b.ReadFrequency
 }
 
+type ControlConfig struct {
+	ConnectionInterface string
+}
+
+func (c *ControlConfig) GetGrpcServerAddress() string {
+	return c.ConnectionInterface
+}
+
 type Config struct {
 	*LightingConfig
 	*RenderConfig
 	*Ws2812Config
 	*GraphicsConfig
 	*ButtonConfig
+	*ControlConfig
 }

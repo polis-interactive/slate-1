@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/data"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/application"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain/button"
+	"fmt"
+	"github.com/polis-interactive/slate-1/data"
+	"github.com/polis-interactive/slate-1/internal/application"
+	"github.com/polis-interactive/slate-1/internal/cloud"
+	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/domain/button"
 	"log"
 	"os"
 	"os/signal"
@@ -13,6 +15,9 @@ import (
 )
 
 func main() {
+
+	connection := fmt.Sprintf("%s:%d", cloud.GetOutboundIP(), 6969)
+
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
 			BoardConfiguration:  data.TerminalBoardConfiguration,
@@ -34,6 +39,9 @@ func main() {
 			ButtonSetup: &button.Setup{
 				KeyOrGpioIn: 1,
 			},
+		},
+		ControlConfig: &application.ControlConfig{
+			ConnectionInterface: connection,
 		},
 	}
 

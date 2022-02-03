@@ -3,7 +3,7 @@ package render
 import (
 	"errors"
 	"fmt"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/domain"
 	"log"
 	"reflect"
 	"sync"
@@ -18,15 +18,14 @@ type render interface {
 	runRender() error
 }
 
-
 func newRender(cfg renderConfig, bus Bus) (render, error) {
 
 	log.Println("render, newSign: newRender")
 
 	base := &baseRender{
-		bus: bus,
+		bus:             bus,
 		renderFrequency: cfg.GetRenderFrequency(),
-		wg: &sync.WaitGroup{},
+		wg:              &sync.WaitGroup{},
 	}
 	switch cfg.GetRenderType() {
 	case domain.RenderTypes.WS2812:
@@ -42,9 +41,9 @@ type baseRender struct {
 	bus             Bus
 	renderFrequency time.Duration
 	render          render
-	ledCount 		int
-	wg *sync.WaitGroup
-	shutdowns chan struct{}
+	ledCount        int
+	wg              *sync.WaitGroup
+	shutdowns       chan struct{}
 }
 
 func (r *baseRender) startup() {
@@ -71,14 +70,13 @@ func (r *baseRender) shutdown() {
 	log.Println(fmt.Sprintf("%s, shutdown: done", reflect.TypeOf(r.render)))
 }
 
-
 func (r *baseRender) runRenderLoop() error {
 	/* I don't think this is necessary anymore?
 	r.bus.SendRenderStateUpdate(true)
 	defer func() {
 		r.bus.SendRenderStateUpdate(false)
 	}()
-	 */
+	*/
 
 	ticker := time.NewTicker(r.renderFrequency)
 	defer func(t *time.Ticker) {
@@ -91,7 +89,7 @@ func (r *baseRender) runRenderLoop() error {
 			if !ok {
 				return nil
 			}
-		case  <-ticker.C:
+		case <-ticker.C:
 			err := r.render.runRender()
 			if err != nil {
 				return err

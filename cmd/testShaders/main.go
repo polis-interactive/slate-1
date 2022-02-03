@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types/shader"
+	"github.com/polis-interactive/slate-1/internal/types/shader"
 	"log"
 	"runtime"
 	"time"
@@ -13,7 +13,7 @@ import (
 /*
 	leaving this as a pseudo documentaiton; it doesn't work anymore after
 	figuring out types/shader
- */
+*/
 
 const programName = "Slate-1"
 const shaderName = "slate-1"
@@ -26,7 +26,7 @@ func init() {
 	runtime.LockOSThread()
 }
 
-func main () {
+func main() {
 
 	if err := glfw.Init(); err != nil {
 		log.Fatalln("failed to inifitialize glfw:", err)
@@ -55,22 +55,22 @@ func main () {
 
 func createFillRect() uint32 {
 
-	vertices := []float32 {
+	vertices := []float32{
 		// bottom left
-		-1.0, -1.0, 0.0,     // position
-		0.0, 0.0, 0.0,     // Color
+		-1.0, -1.0, 0.0, // position
+		0.0, 0.0, 0.0, // Color
 
 		// bottom right
 		1.0, -1.0, 0.0,
-		0.0, 0.0, 0.0,     // Color
+		0.0, 0.0, 0.0, // Color
 
 		// top right
 		1.0, 1.0, 0.0,
-		0.0, 0.0, 0.0,     // Color
+		0.0, 0.0, 0.0, // Color
 
 		// top left
 		-1.0, 1.0, 0.0,
-		0.0, 0.0, 0.0,     // Color
+		0.0, 0.0, 0.0, // Color
 	}
 
 	indices := []uint32{

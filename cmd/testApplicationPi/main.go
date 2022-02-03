@@ -1,18 +1,16 @@
 package main
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/data"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/application"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-1/data"
+	"github.com/polis-interactive/slate-1/internal/application"
+	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 )
-
-
 
 func main() {
 	conf := &application.Config{
@@ -30,11 +28,11 @@ func main() {
 			Gamma:     1.0,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
-			ShaderName: "slate-1",
-			DisplayOutput: false,
+			ShaderName:     "slate-1",
+			DisplayOutput:  false,
 			ReloadOnUpdate: false,
-			PixelSize: 1,
-			Frequency: 33 * time.Millisecond,
+			PixelSize:      1,
+			Frequency:      33 * time.Millisecond,
 		},
 	}
 
@@ -62,4 +60,3 @@ func main() {
 		log.Println("Main: issue shutting down; ", err)
 	}
 }
-

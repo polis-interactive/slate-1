@@ -1,7 +1,7 @@
 package bus
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/domain"
 )
 
 type bus struct {
@@ -9,6 +9,7 @@ type bus struct {
 	renderService   domain.RenderService
 	graphicsService domain.GraphicsService
 	buttonService   domain.ButtonService
+	controlService  domain.ControlService
 }
 
 func NewBus() *bus {
@@ -31,15 +32,19 @@ func (b *bus) BindButtonService(btn domain.ButtonService) {
 	b.buttonService = btn
 }
 
+func (b *bus) BindControlService(c domain.ControlService) {
+	b.controlService = c
+}
+
 func (b *bus) Startup() {
-	// maybe signal we are starting up
 	b.graphicsService.Startup()
 	b.renderService.Startup()
 	b.buttonService.Startup()
+	b.controlService.Startup()
 }
 
 func (b *bus) Shutdown() {
-	// maybe signal we are shutting down
+	b.controlService.Shutdown()
 	b.buttonService.Shutdown()
 	b.graphicsService.Shutdown()
 	b.renderService.Shutdown()

@@ -2,7 +2,7 @@ package render
 
 import (
 	"fmt"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 )
 
@@ -35,7 +35,7 @@ func (r *terminalRender) runMainLoop() {
 			log.Println(fmt.Sprintf("ws2812Render, Main Loop: received error; %s", err.Error()))
 		}
 		select {
-		case _, ok := <- r.shutdowns:
+		case _, ok := <-r.shutdowns:
 			if !ok {
 				goto CloseTerminalLoop
 			}

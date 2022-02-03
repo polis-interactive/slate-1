@@ -1,6 +1,6 @@
 package lighting
 
-import "github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+import "github.com/polis-interactive/slate-1/internal/types"
 
 func generateLights(boards []types.BoardConfiguration, disallowed []types.Point) ([]types.Light, int) {
 	// outputs
@@ -31,13 +31,13 @@ func generateLights(boards []types.BoardConfiguration, disallowed []types.Point)
 
 			switch config.Orientation {
 			case types.Orient0:
-				position.AlterPoint(position.X + yPos, position.Y + (6 - xPos))
+				position.AlterPoint(position.X+yPos, position.Y+(6-xPos))
 			case types.Orient90:
-				position.AlterPoint(position.X + xPos, position.Y + yPos)
+				position.AlterPoint(position.X+xPos, position.Y+yPos)
 			case types.Orient180:
-				position.AlterPoint(position.X + (maxNominalY - yPos), position.Y + xPos)
+				position.AlterPoint(position.X+(maxNominalY-yPos), position.Y+xPos)
 			case types.Orient270:
-				position.AlterPoint(position.X + (6 - xPos), position.Y + (maxNominalY - yPos))
+				position.AlterPoint(position.X+(6-xPos), position.Y+(maxNominalY-yPos))
 			}
 
 			for _, p := range disallowed {
@@ -49,7 +49,7 @@ func generateLights(boards []types.BoardConfiguration, disallowed []types.Point)
 
 			l := types.Light{
 				Position: position,
-				Pixel: 	  lastLight,
+				Pixel:    lastLight,
 				Show:     isAllowed,
 				Color:    types.Color{},
 			}

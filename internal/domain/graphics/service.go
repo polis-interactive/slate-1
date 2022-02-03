@@ -1,8 +1,8 @@
 package graphics
 
 import (
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/domain"
-	"github.com/polis-interactive/slate-italian-plumber-1/internal/types"
+	"github.com/polis-interactive/slate-1/internal/domain"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"sync"
 )
@@ -66,4 +66,10 @@ func (s *service) HandleButtonPush() (isOff bool) {
 	defer s.graphics.mu.Unlock()
 	s.graphics.isOff = !s.graphics.isOff
 	return s.graphics.isOff
+}
+
+func (s *service) HandleSetState(isOff bool) {
+	s.graphics.mu.Lock()
+	defer s.graphics.mu.Unlock()
+	s.graphics.isOff = isOff
 }
