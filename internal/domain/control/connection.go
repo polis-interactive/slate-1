@@ -2,11 +2,12 @@ package control
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	grpcControl "github.com/polis-interactive/slate-1/api/v1/go"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 	"io"
 	"log"
 	"sync"
@@ -87,7 +88,8 @@ func (c *connection) tryConnectToServer() (*grpc.ClientConn, error) {
 	log.Println("ControlConnection, tryConnectToServer: connecting")
 
 	var opts []grpc.DialOption
-	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+	opts = append(opts, grpc.WithTransportCredentials(creds))
 
 	conn, err := grpc.Dial(c.serverAddress, opts...)
 	if err != nil {
