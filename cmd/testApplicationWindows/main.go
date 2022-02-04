@@ -29,7 +29,7 @@ func main() {
 		},
 		RenderConfig: &application.RenderConfig{
 			RenderType:      domain.RenderTypes.TERMINAL,
-			RenderFrequency: 1 * time.Second,
+			RenderFrequency: 10 * time.Second,
 		},
 		GraphicsConfig: &application.GraphicsConfig{
 			ShaderName:     "slate-1",

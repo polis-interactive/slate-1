@@ -5,7 +5,7 @@ WORKDIR /go/src/slate-1
 
 COPY . .
 
-RUN go build -o /go/bin/slate-1 ./cmd/cloud
+RUN go build -o /go/bin/slate-1 ./cmd/testAlexa
 
 
 FROM debian

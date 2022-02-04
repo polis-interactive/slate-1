@@ -9,10 +9,13 @@ require (
 	github.com/go-gl/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/julienschmidt/httprouter v1.3.0 // indirect
+	github.com/mikeflynn/go-alexa v0.0.0-20211022155346-6d20dc2c7771 // indirect
 	github.com/pborges/huejack v0.0.0-20181028163452-4bd1e5447b88 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/urfave/negroni v1.0.0 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
 	golang.org/x/sys v0.0.0-20220128215802-99c3d69c2c27 // indirect
 	golang.org/x/text v0.3.7 // indirect
