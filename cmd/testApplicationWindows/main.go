@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/polis-interactive/slate-1/data"
 	"github.com/polis-interactive/slate-1/internal/application"
-	"github.com/polis-interactive/slate-1/internal/cloud"
 	"github.com/polis-interactive/slate-1/internal/domain"
 	"github.com/polis-interactive/slate-1/internal/domain/button"
 	"log"
@@ -15,8 +13,6 @@ import (
 )
 
 func main() {
-
-	connection := fmt.Sprintf("%s:%d", cloud.GetOutboundIP(), 6969)
 
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
@@ -41,7 +37,7 @@ func main() {
 			},
 		},
 		ControlConfig: &application.ControlConfig{
-			ConnectionInterface: connection,
+			ConnectionInterface: "localhost:6969",
 		},
 	}
 

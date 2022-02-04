@@ -10,7 +10,7 @@ import (
 
 func main() {
 	conf := &cloud.Config{
-		IpInterface: cloud.GetOutboundIP(),
+		IpInterface: "0.0.0.0",
 		GrpcPort:    6969,
 	}
 

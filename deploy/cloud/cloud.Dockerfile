@@ -1,18 +1,16 @@
 # debian lts with node lts
-FROM node:14.15.4-buster
+FROM golang:1.17.6-bullseye AS build
 
-WORKDIR /usr/src/app
+WORKDIR /go/src/slate-1
 
-RUN npm install --global --unsafe-perm sequelize-cli
+COPY . .
 
-COPY backend-cloud/package*.json ./backend-cloud/
+RUN go build -o /go/bin/slate-1 ./cmd/cloud
 
-RUN npm install --prefix ./backend-cloud
 
-COPY ./backend-cloud ./backend-cloud
+FROM debian
+COPY --from=build /go/bin/slate-1 /bin/slate-1
 
-EXPOSE 3030
+EXPOSE 6969
 
-ENV NODE_ENV=test
-
-CMD ["npm", "run", "--prefix", "./backend-cloud", "start"]
+ENTRYPOINT ["/bin/slate-1"]
