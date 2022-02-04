@@ -3,8 +3,8 @@ package main
 import alexa "github.com/mikeflynn/go-alexa/skillserver"
 
 var Applications = map[string]interface{}{
-	"/echo/helloworld": alexa.EchoApplication{ // Route
-		AppID:    "xxxxxxxx", // Echo App ID from Amazon Dashboard
+	"/slate-1/LightIntent": alexa.EchoApplication{ // Route
+		AppID:    "amzn1.ask.skill.69a5128a-d6b6-4bd2-888d-f388e8986c7b", // Echo App ID from Amazon Dashboard
 		OnIntent: EchoIntentHandler,
 		OnLaunch: EchoIntentHandler,
 	},
