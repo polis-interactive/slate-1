@@ -37,7 +37,7 @@ func main() {
 			},
 		},
 		ControlConfig: &application.ControlConfig{
-			ConnectionInterface: "grpc.polis.tv/slate",
+			ConnectionInterface: "https://grpc.polis.tv/slate",
 		},
 	}
 
