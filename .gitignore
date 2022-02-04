@@ -14,3 +14,7 @@
 !/deploy/
 
 !/internal/
+
+!/api/
+
+!makefile

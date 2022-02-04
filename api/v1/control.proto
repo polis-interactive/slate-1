@@ -1,0 +1,17 @@
+
+syntax = "proto3";
+
+package Slate1.v1.control;
+
+option go_package = "github.com/polis-interactive/slate-1/api/v1/go/control;grpcControl";
+
+
+message EmptyRequest {}
+
+message ControlResponse {
+  bool On = 1;
+}
+
+service Control {
+  rpc ControlConnection(EmptyRequest) returns (stream ControlResponse) {}
+}
