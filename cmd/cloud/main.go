@@ -17,7 +17,7 @@ func main() {
 			CertFile:      "./certs/server.pem",
 			KeyFile:       "./certs/server-key.pem",
 			CAFile:        "./certs/ca.pem",
-			ServerAddress: "0.0.0.0",
+			ServerAddress: "127.0.0.1",
 			Server:        true,
 		},
 	}

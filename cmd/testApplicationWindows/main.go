@@ -16,7 +16,7 @@ import (
 
 func main() {
 
-	serviceIp, err := cloud.DnsLookupIp("grpc.polis.tv")
+	serverAddress, err := cloud.DnsLookupIp("grpc.polis.tv")
 	if err != nil {
 		log.Fatalln(err)
 		return
@@ -45,13 +45,13 @@ func main() {
 			},
 		},
 		ControlConfig: &application.ControlConfig{
-			ServerAddress: serviceIp,
+			ServerAddress: serverAddress,
 			ServerPort:    6969,
 			TLSConfig: &types.TLSConfig{
 				CertFile:      "./certs/client.pem",
 				KeyFile:       "./certs/client-key.pem",
 				CAFile:        "./certs/ca.pem",
-				ServerAddress: "0.0.0.0",
+				ServerAddress: "127.0.0.1",
 				Server:        false,
 			},
 		},
