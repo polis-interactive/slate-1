@@ -13,4 +13,6 @@ COPY --from=build /go/bin/slate-1 /bin/slate-1
 
 EXPOSE 6969
 
+COPY . .
+
 ENTRYPOINT ["/bin/slate-1"]
