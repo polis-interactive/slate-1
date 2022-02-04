@@ -114,7 +114,7 @@ function reload_nginx {
 ###################################################################
 
 
-domains_list=(grpc.polis.tv service.polis.tv)
+domains_list=(alexa.polis.tv)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="bruce@polis.tv" # Adding a valid address is strongly recommended

@@ -5,6 +5,8 @@ services:
     build:
       context: ../../.
       dockerfile: ./cloud.Dockerfile
+    ports:
+      - "6969:6969"
     image: slate-cloud
     container_name: slate_cloud
     restart: unless-stopped
