@@ -12,6 +12,7 @@ FROM debian
 COPY --from=build /go/bin/slate-1 /bin/slate-1
 
 EXPOSE 6969
+EXPOSE 420
 
 COPY . .
 
