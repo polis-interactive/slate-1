@@ -37,7 +37,7 @@ func main() {
 			},
 		},
 		ControlConfig: &application.ControlConfig{
-			ConnectionInterface: "localhost:6969",
+			ConnectionInterface: "grpc.polis.tv/slate",
 		},
 	}
 
