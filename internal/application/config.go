@@ -97,11 +97,21 @@ func (b *ButtonConfig) GetReadFrequency() time.Duration {
 }
 
 type ControlConfig struct {
-	ConnectionInterface string
+	ServerAddress string
+	ServerPort    int
+	TLSConfig     *types.TLSConfig
 }
 
 func (c *ControlConfig) GetGrpcServerAddress() string {
-	return c.ConnectionInterface
+	return c.ServerAddress
+}
+
+func (c *ControlConfig) GetGrpcServerPort() int {
+	return c.ServerPort
+}
+
+func (c *ControlConfig) GetGrpcTLSConfig() *types.TLSConfig {
+	return c.TLSConfig
 }
 
 type Config struct {

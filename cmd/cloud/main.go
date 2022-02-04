@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/polis-interactive/slate-1/internal/cloud"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"os"
 	"os/signal"
@@ -12,6 +13,13 @@ func main() {
 	conf := &cloud.Config{
 		IpInterface: "0.0.0.0",
 		GrpcPort:    6969,
+		TLSConfig: &types.TLSConfig{
+			CertFile:      "./certs/server.pem",
+			KeyFile:       "./certs/server-key.pem",
+			CAFile:        "./certs/ca.pem",
+			ServerAddress: "0.0.0.0",
+			Server:        true,
+		},
 	}
 
 	app, err := cloud.NewApplication(conf)

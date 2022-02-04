@@ -1,12 +1,15 @@
 package grpc
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
 	grpcMiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpcCtxTags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpcControl "github.com/polis-interactive/slate-1/api/v1/go"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
 	"sync"
@@ -29,6 +32,17 @@ func NewServer(
 
 	log.Println("GrpcServer, NewServer: creating")
 
+	var tlsConfig *tls.Config = nil
+	configInput := config.GetGrpcTLSConfig()
+	if configInput != nil {
+		tryConfig, err := types.SetupTLSConfig(configInput)
+		if err != nil {
+			log.Println(fmt.Sprintf("ControlConnection, NewConnection; tls config failed: %s", err.Error()))
+		} else {
+			tlsConfig = tryConfig
+		}
+	}
+
 	var options []grpc.ServerOption
 	options = append(
 		options,
@@ -39,6 +53,11 @@ func NewServer(
 			grpcCtxTags.UnaryServerInterceptor(),
 		)),
 	)
+
+	if tlsConfig != nil {
+		serverCredentials := credentials.NewTLS(tlsConfig)
+		options = append(options, grpc.Creds(serverCredentials))
+	}
 
 	shutdowns := make(chan struct{})
 	wg := &sync.WaitGroup{}

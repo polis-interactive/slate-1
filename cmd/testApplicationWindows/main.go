@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"github.com/polis-interactive/slate-1/data"
 	"github.com/polis-interactive/slate-1/internal/application"
 	"github.com/polis-interactive/slate-1/internal/cloud"
 	"github.com/polis-interactive/slate-1/internal/domain"
 	"github.com/polis-interactive/slate-1/internal/domain/button"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"log"
 	"os"
 	"os/signal"
@@ -21,8 +21,6 @@ func main() {
 		log.Fatalln(err)
 		return
 	}
-
-	serviceEndpoint := fmt.Sprintf("%s:%d", serviceIp, 6969)
 
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
@@ -47,7 +45,15 @@ func main() {
 			},
 		},
 		ControlConfig: &application.ControlConfig{
-			ConnectionInterface: serviceEndpoint,
+			ServerAddress: serviceIp,
+			ServerPort:    6969,
+			TLSConfig: &types.TLSConfig{
+				CertFile:      "./certs/client.pem",
+				KeyFile:       "./certs/client-key.pem",
+				CAFile:        "./certs/ca.pem",
+				ServerAddress: "0.0.0.0",
+				Server:        false,
+			},
 		},
 	}
 

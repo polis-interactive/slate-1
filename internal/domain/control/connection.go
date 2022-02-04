@@ -2,10 +2,13 @@ package control
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	grpcControl "github.com/polis-interactive/slate-1/api/v1/go"
+	"github.com/polis-interactive/slate-1/internal/types"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 	"io"
 	"log"
@@ -15,6 +18,8 @@ import (
 
 type connection struct {
 	serverAddress string
+	serverPort    int
+	tls           *tls.Config
 	bus           Bus
 	mu            *sync.RWMutex
 	wg            *sync.WaitGroup
@@ -22,8 +27,22 @@ type connection struct {
 }
 
 func newConnection(conf Config, bus Bus) *connection {
+
+	var tlsConfig *tls.Config = nil
+	configInput := conf.GetGrpcTLSConfig()
+	if configInput != nil {
+		tryConfig, err := types.SetupTLSConfig(configInput)
+		if err != nil {
+			log.Println(fmt.Sprintf("ControlConnection, NewConnection; tls config failed: %s", err.Error()))
+		} else {
+			tlsConfig = tryConfig
+		}
+	}
+
 	return &connection{
 		serverAddress: conf.GetGrpcServerAddress(),
+		serverPort:    conf.GetGrpcServerPort(),
+		tls:           tlsConfig,
 		bus:           bus,
 		mu:            &sync.RWMutex{},
 		wg:            &sync.WaitGroup{},
@@ -87,9 +106,16 @@ func (c *connection) tryConnectToServer() (*grpc.ClientConn, error) {
 	log.Println("ControlConnection, tryConnectToServer: connecting")
 
 	var opts []grpc.DialOption
-	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if c.tls != nil {
+		clientCredentials := credentials.NewTLS(c.tls)
+		opts = append(opts, grpc.WithTransportCredentials(clientCredentials))
+	} else {
+		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
 
-	conn, err := grpc.Dial(c.serverAddress, opts...)
+	connectionAddress := fmt.Sprintf("%s:%d", c.serverAddress, c.serverPort)
+
+	conn, err := grpc.Dial(connectionAddress, opts...)
 	if err != nil {
 		log.Println(fmt.Sprintf("ControlConnection, tryConnectToServer: error while dialing; %s", err.Error()))
 		return nil, err
