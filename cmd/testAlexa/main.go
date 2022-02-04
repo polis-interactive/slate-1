@@ -11,7 +11,7 @@ var Applications = map[string]interface{}{
 }
 
 func main() {
-	alexa.Run(Applications, "3000")
+	alexa.Run(Applications, "420")
 }
 
 func EchoIntentHandler(echoReq *alexa.EchoRequest, echoResp *alexa.EchoResponse) {
