@@ -19,12 +19,12 @@ type lightIntentSlots struct {
 
 type alexaIntentBody struct {
 	name  string           `json:"name" binding:"required"`
-	slots lightIntentSlots `json:"slots"`
+	slots lightIntentSlots `json:"slots,omitempty"`
 }
 
 type alexaRequest struct {
 	requestType string          `json:"type" binding:"required"`
-	intent      alexaIntentBody `json:"intent"`
+	intent      alexaIntentBody `json:"intent,omitempty"`
 }
 
 type alexaBody struct {
