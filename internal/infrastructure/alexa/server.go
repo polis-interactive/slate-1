@@ -13,6 +13,7 @@ import (
 )
 
 type Server struct {
+	handler      *handler
 	router       *gin.Engine
 	srv          *http.Server
 	port         int
@@ -28,12 +29,17 @@ func NewServer(cfg Config) (*Server, error) {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	h := &handler{
+		applicationId: cfg.GetApplicationId(),
+	}
+
 	router := gin.Default()
-	router.POST("/slate-1", buildHandler(cfg.GetApplicationId()))
+	router.POST("/slate-1", h.handleSlateOne)
 
 	log.Println("AlexaServer, NewServer: created")
 
 	return &Server{
+		handler:  h,
 		router:   router,
 		port:     cfg.GetAlexaPort(),
 		shutdown: true,
