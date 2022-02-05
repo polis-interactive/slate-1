@@ -21,7 +21,6 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	log.Println(body)
 
 	appId := body.Session.Application.Id
 	if appId != h.appId {
@@ -38,7 +37,10 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 	}
 
 	intentName := body.Request.Intent.Name
-	if intentName == "AMAZON.CancelIntent" || intentName == "AMAZON.StopIntent" {
+	if intentName == "SessionEndedRequest" {
+		log.Println(fmt.Sprintf("SessionEnded"))
+		return
+	} else if intentName == "AMAZON.CancelIntent" || intentName == "AMAZON.StopIntent" {
 		log.Println(fmt.Sprintf("Stop intent requested"))
 		c.JSON(http.StatusOK, stopResponse())
 		return
