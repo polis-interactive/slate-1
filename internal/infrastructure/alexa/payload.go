@@ -28,6 +28,7 @@ type alexaRequest struct {
 }
 
 type alexaBody struct {
+	version string       `json:"version"`
 	session alexaSession `json:"session" binding:"required"`
 	request alexaRequest `json:"request" binding:"required"`
 }
