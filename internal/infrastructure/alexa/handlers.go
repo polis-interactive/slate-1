@@ -3,6 +3,7 @@ package alexa
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -13,6 +14,9 @@ type handler struct {
 }
 
 func (h *handler) handleSlateOne(c *gin.Context) {
+
+	b, _ := ioutil.ReadAll(c.Request.Body)
+	println(string(b))
 
 	var body alexaBody
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -25,7 +29,7 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 	appId := body.session.application.id
 	if appId != h.applicationId {
 		log.Println(fmt.Sprintf("Unknown application id: %s", appId))
-		c.JSON(http.StatusBadRequest, gin.H{"error": "unknown applicationId"})
+		c.JSON(http.StatusForbidden, gin.H{"error": "unknown applicationId"})
 		return
 	}
 
