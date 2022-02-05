@@ -30,17 +30,17 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 	}
 
 	requestType := body.Request.RequestType
-	if requestType != "IntentRequest" {
+	if requestType == "SessionEndedRequest" {
+		log.Println(fmt.Sprintf("SessionEnded"))
+		return
+	} else if requestType != "IntentRequest" {
 		log.Println(fmt.Sprintf("Unknown request type: %s", requestType))
 		c.JSON(http.StatusOK, unhandledResponse())
 		return
 	}
 
 	intentName := body.Request.Intent.Name
-	if intentName == "SessionEndedRequest" {
-		log.Println(fmt.Sprintf("SessionEnded"))
-		return
-	} else if intentName == "AMAZON.CancelIntent" || intentName == "AMAZON.StopIntent" {
+	if intentName == "AMAZON.CancelIntent" || intentName == "AMAZON.StopIntent" {
 		log.Println(fmt.Sprintf("Stop intent requested"))
 		c.JSON(http.StatusOK, stopResponse())
 		return
