@@ -31,7 +31,7 @@ func handleSlateOne(c *gin.Context) {
 				"shouldEndSession": true,
 				"outputSpeech": gin.H{
 					"type": "PlainText",
-					"text": "WE LOVE RICH",
+					"text": "Yes, Daddy",
 				},
 			},
 		},
