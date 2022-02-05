@@ -1,6 +1,7 @@
 package alexa
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
@@ -17,6 +18,7 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 
 	b, _ := ioutil.ReadAll(c.Request.Body)
 	println(string(b))
+	c.Request.Body = ioutil.NopCloser(bytes.NewReader(b))
 
 	var body alexaBody
 	if err := c.ShouldBindJSON(&body); err != nil {
