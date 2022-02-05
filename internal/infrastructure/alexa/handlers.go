@@ -20,7 +20,7 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	log.Println(body)
+	log.Println(body.version)
 
 	appId := body.session.application.id
 	if appId != h.applicationId {
