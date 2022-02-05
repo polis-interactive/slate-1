@@ -148,7 +148,7 @@ func noSlateRequest() map[string]interface{} {
 }
 
 func successRequest() map[string]interface{} {
-	return 	gin.H{
+	return gin.H{
 		"version": "1.0",
 		"response": gin.H{
 			"shouldEndSession": true,
@@ -157,5 +157,5 @@ func successRequest() map[string]interface{} {
 				"ssml": "<speak><amazon:emotion name=\"excited\" intensity=\"high\">Yes daddy!</amazon:emotion></speak>",
 			},
 		},
-	},
+	}
 }
