@@ -9,7 +9,8 @@ import (
 )
 
 type handler struct {
-	applicationId string
+	appId string
+	p     Proxy
 }
 
 func (h *handler) handleSlateOne(c *gin.Context) {
@@ -23,7 +24,7 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 	log.Println(body)
 
 	appId := body.Session.Application.Id
-	if appId != h.applicationId {
+	if appId != h.appId {
 		log.Println(fmt.Sprintf("Unknown application id: %s", appId))
 		c.JSON(http.StatusForbidden, gin.H{"error": "unknown applicationId"})
 		return
@@ -59,10 +60,9 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 		isOff = true
 	}
 
-	log.Println(fmt.Sprintf("New slate state: %t", isOff))
-
-	// try to dispatch to server
-	if false {
+	err := h.p.HandleAlexaCommand(isOff)
+	if err != nil {
+		log.Println(fmt.Sprintf("No slate found"))
 		c.JSON(http.StatusOK, noSlateResponse())
 		return
 	}

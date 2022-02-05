@@ -21,7 +21,7 @@ type Server struct {
 	shutdownLock sync.Mutex
 }
 
-func NewServer(cfg Config) (*Server, error) {
+func NewServer(cfg Config, p Proxy) (*Server, error) {
 
 	log.Println("AlexaServer, NewServer: creating")
 
@@ -30,7 +30,8 @@ func NewServer(cfg Config) (*Server, error) {
 	}
 
 	h := &handler{
-		applicationId: cfg.GetApplicationId(),
+		appId: cfg.GetApplicationId(),
+		p:     p,
 	}
 
 	router := gin.Default()

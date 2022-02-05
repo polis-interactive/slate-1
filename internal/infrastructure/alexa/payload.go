@@ -18,13 +18,13 @@ type LightIntentSlots struct {
 }
 
 type IntentBody struct {
-	Name  string           `json:"name" binding:"required"`
-	Slots LightIntentSlots `json:"slots,omitempty"`
+	Name  string            `json:"name" binding:"required"`
+	Slots *LightIntentSlots `json:"slots,omitempty"`
 }
 
 type Request struct {
-	RequestType string     `json:"type" binding:"required"`
-	Intent      IntentBody `json:"intent,omitempty"`
+	RequestType string      `json:"type" binding:"required"`
+	Intent      *IntentBody `json:"intent,omitempty"`
 }
 
 type Body struct {
