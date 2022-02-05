@@ -22,8 +22,6 @@ func main() {
 		return
 	}
 
-	log.Println(serverAddress)
-
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
 			BoardConfiguration:  data.DefaultBoardConfiguration,
@@ -56,9 +54,9 @@ func main() {
 			ServerAddress: serverAddress,
 			ServerPort:    6969,
 			TLSConfig: &types.TLSConfig{
-				CertFile:      "./certs/client.pem",
-				KeyFile:       "./certs/client-key.pem",
-				CAFile:        "./certs/ca.pem",
+				CertFile:      "/home/pi/slate-1/certs/client.pem",
+				KeyFile:       "/home/pi/slate-1/certs/client-key.pem",
+				CAFile:        "/home/pi/slate-1/certs/ca.pem",
 				ServerAddress: "127.0.0.1",
 				Server:        false,
 			},
