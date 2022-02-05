@@ -22,6 +22,8 @@ func main() {
 		return
 	}
 
+	log.Println(serverAddress)
+
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
 			BoardConfiguration:  data.DefaultBoardConfiguration,
