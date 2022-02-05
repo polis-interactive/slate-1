@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/polis-interactive/slate-1/data"
 	"github.com/polis-interactive/slate-1/internal/application"
+	"github.com/polis-interactive/slate-1/internal/cloud"
 	"github.com/polis-interactive/slate-1/internal/domain"
 	"github.com/polis-interactive/slate-1/internal/domain/button"
 	"github.com/polis-interactive/slate-1/internal/types"
@@ -14,6 +15,13 @@ import (
 )
 
 func main() {
+
+	serverAddress, err := cloud.DnsLookupIp("grpc.polis.tv")
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
+
 	conf := &application.Config{
 		LightingConfig: &application.LightingConfig{
 			BoardConfiguration:  data.DefaultBoardConfiguration,
@@ -41,6 +49,17 @@ func main() {
 				KeyOrGpioIn: 14,
 			},
 			ReadFrequency: 75 * time.Millisecond,
+		},
+		ControlConfig: &application.ControlConfig{
+			ServerAddress: serverAddress,
+			ServerPort:    6969,
+			TLSConfig: &types.TLSConfig{
+				CertFile:      "./certs/client.pem",
+				KeyFile:       "./certs/client-key.pem",
+				CAFile:        "./certs/ca.pem",
+				ServerAddress: "127.0.0.1",
+				Server:        false,
+			},
 		},
 	}
 
