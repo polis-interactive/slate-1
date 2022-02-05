@@ -14,29 +14,29 @@ type handler struct {
 
 func (h *handler) handleSlateOne(c *gin.Context) {
 
-	var body alexaBody
+	var body Body
 	if err := c.ShouldBindJSON(&body); err != nil {
 		log.Println(fmt.Sprintf("Failed to decode json with err: %s", err.Error()))
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	log.Println(body.version)
+	log.Println(body)
 
-	appId := body.session.application.id
+	appId := body.Session.Application.Id
 	if appId != h.applicationId {
 		log.Println(fmt.Sprintf("Unknown application id: %s", appId))
 		c.JSON(http.StatusForbidden, gin.H{"error": "unknown applicationId"})
 		return
 	}
 
-	requestType := body.request.requestType
+	requestType := body.Request.RequestType
 	if requestType != "IntentRequest" {
 		log.Println(fmt.Sprintf("Unknown request type: %s", requestType))
 		c.JSON(http.StatusOK, unhandledResponse())
 		return
 	}
 
-	intentName := body.request.intent.name
+	intentName := body.Request.Intent.Name
 	if intentName == "AMAZON.CancelIntent" || intentName == "AMAZON.StopIntent" {
 		log.Println(fmt.Sprintf("Stop intent requested"))
 		c.JSON(http.StatusOK, stopResponse())
@@ -51,7 +51,7 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 		return
 	}
 
-	newState := strings.ToLower(body.request.intent.slots.state.value)
+	newState := strings.ToLower(body.Request.Intent.Slots.State.Value)
 	var isOff bool
 	if newState == "on" || newState == "up" {
 		isOff = false

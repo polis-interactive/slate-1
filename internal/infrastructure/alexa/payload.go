@@ -1,34 +1,33 @@
 package alexa
 
-type alexaApplication struct {
-	id string `json:"applicationId" binding:"required"`
+type Application struct {
+	Id string `json:"applicationId" binding:"required"`
 }
 
-type alexaSession struct {
-	application alexaApplication `json:"application" binding:"required"`
+type Session struct {
+	Application Application `json:"application" binding:"required"`
 }
 
-type lightIntentState struct {
-	name  string `json:"name" binding:"required"`
-	value string `json:"value" binding:"required"`
+type LightIntentState struct {
+	Name  string `json:"name" binding:"required"`
+	Value string `json:"value" binding:"required"`
 }
 
-type lightIntentSlots struct {
-	state lightIntentState `json:"state" binding:"required"`
+type LightIntentSlots struct {
+	State LightIntentState `json:"state" binding:"required"`
 }
 
-type alexaIntentBody struct {
-	name  string           `json:"name" binding:"required"`
-	slots lightIntentSlots `json:"slots,omitempty"`
+type IntentBody struct {
+	Name  string           `json:"name" binding:"required"`
+	Slots LightIntentSlots `json:"slots,omitempty"`
 }
 
-type alexaRequest struct {
-	requestType string          `json:"type" binding:"required"`
-	intent      alexaIntentBody `json:"intent,omitempty"`
+type Request struct {
+	RequestType string     `json:"type" binding:"required"`
+	Intent      IntentBody `json:"intent,omitempty"`
 }
 
-type alexaBody struct {
-	version string       `json:"version"`
-	session alexaSession `json:"session" binding:"required"`
-	request alexaRequest `json:"request" binding:"required"`
+type Body struct {
+	Session Session `json:"session" binding:"required"`
+	Request Request `json:"request" binding:"required"`
 }
