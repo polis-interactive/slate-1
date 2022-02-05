@@ -45,7 +45,7 @@ func newWs2812Render(base *baseRender, cfg ws2812RenderConfig) *ws2812Render {
 		baseRender: base,
 		options:    &options,
 		channel:    channel,
-		lastOff:    true,
+		lastOff:    false,
 		strip:      nil,
 	}
 
