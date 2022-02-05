@@ -1,19 +1,41 @@
 package main
 
-import alexa "github.com/mikeflynn/go-alexa/skillserver"
+import (
+	"github.com/polis-interactive/slate-1/internal/infrastructure/alexa"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+)
 
-var Applications = map[string]interface{}{
-	"/slate-1": alexa.EchoApplication{ // Route
-		AppID:    "amzn1.ask.skill.69a5128a-d6b6-4bd2-888d-f388e8986c7b", // Echo App ID from Amazon Dashboard
-		OnIntent: EchoIntentHandler,
-		OnLaunch: EchoIntentHandler,
-	},
+type AlexaConfig struct {
+}
+
+func (a AlexaConfig) GetAlexaPort() int {
+	return 420
+}
+
+func (a AlexaConfig) GetIsProduction() bool {
+	return false
 }
 
 func main() {
-	alexa.Run(Applications, "420")
-}
+	cfg := &AlexaConfig{}
+	srv, err := alexa.NewServer(cfg)
+	if err != nil {
+		panic(err)
+	}
 
-func EchoIntentHandler(echoReq *alexa.EchoRequest, echoResp *alexa.EchoResponse) {
-	echoResp.OutputSpeech("Hello world from my new Echo test app!").Card("Hello World", "This is a test card.")
+	err = srv.Startup()
+	if err != nil {
+		log.Println("Main: failed to startup, shutting down")
+		srv.Shutdown()
+		panic(err)
+	}
+
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	<-c
+
+	srv.Shutdown()
 }
