@@ -35,7 +35,7 @@ func askPolisResponse() map[string]interface{} {
 			"shouldEndSession": true,
 			"outputSpeech": gin.H{
 				"type": "SSML",
-				"ssml": "<speak><amazon:emotion name=\"excited\" intensity=\"high\">I know daddy, you should ask Polis!/amazon:emotion></speak>",
+				"ssml": "<speak><amazon:emotion name=\"excited\" intensity=\"high\">I know daddy, you should ask Polis!</amazon:emotion></speak>",
 			},
 		},
 	}
@@ -48,7 +48,7 @@ func noSlateResponse() map[string]interface{} {
 			"shouldEndSession": true,
 			"outputSpeech": gin.H{
 				"type": "SSML",
-				"ssml": "<speak><amazon:emotion name=\"disappointed\" intensity=\"low\">Sorry daddy, I couldn't find slate one.../amazon:emotion></speak>",
+				"ssml": "<speak><amazon:emotion name=\"disappointed\" intensity=\"low\">Sorry daddy, I couldn't find slate one...</amazon:emotion></speak>",
 			},
 		},
 	}
