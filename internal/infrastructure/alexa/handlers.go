@@ -30,8 +30,8 @@ func handleSlateOne(c *gin.Context) {
 			"response": gin.H{
 				"shouldEndSession": true,
 				"outputSpeech": gin.H{
-					"type": "PlainText",
-					"text": "Yes, Daddy",
+					"type": "SSML",
+					"ssml": "<speak><amazon:emotion name=\"excited\" intensity=\"high\">Yes daddy!</amazon:emotion></speak>",
 				},
 			},
 		},
