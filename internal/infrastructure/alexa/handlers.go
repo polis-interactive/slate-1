@@ -50,6 +50,7 @@ func handleSlateOne(applicationId string, c *gin.Context) {
 
 	var body alexaBody
 	if err := c.ShouldBindJSON(&body); err != nil {
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
