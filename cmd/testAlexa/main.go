@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/polis-interactive/slate-1/internal/infrastructure/alexa"
 	"log"
 	"os"
@@ -23,9 +24,17 @@ func (a AlexaConfig) GetIsProduction() bool {
 	return false
 }
 
+type FakeProxy struct{}
+
+func (f FakeProxy) HandleAlexaCommand(isOff bool) error {
+	log.Println(fmt.Sprintf("new stat is %t", isOff))
+	return nil
+}
+
 func main() {
 	cfg := &AlexaConfig{}
-	srv, err := alexa.NewServer(cfg)
+	p := &FakeProxy{}
+	srv, err := alexa.NewServer(cfg, p)
 	if err != nil {
 		panic(err)
 	}
