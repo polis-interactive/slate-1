@@ -29,7 +29,7 @@ func NewServer(cfg Config) (*Server, error) {
 	}
 
 	router := gin.Default()
-	router.POST("/slate-1", handleSlateOne)
+	router.POST("/slate-1", buildHandler(cfg.GetApplicationId()))
 
 	log.Println("AlexaServer, NewServer: created")
 

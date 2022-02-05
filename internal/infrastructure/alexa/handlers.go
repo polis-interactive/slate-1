@@ -2,12 +2,8 @@ package alexa
 
 import (
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
 	"net/http"
 )
-
-type Request struct {
-}
 
 const (
 	EventOnLaunch       = "OnLaunch"
@@ -20,9 +16,14 @@ const (
 	AmazonStopIntent    = "AMAZON.StopIntent"
 )
 
-func handleSlateOne(c *gin.Context) {
-	body, _ := ioutil.ReadAll(c.Request.Body)
-	println(string(body))
+func buildHandler(applicationId string) func(*gin.Context) {
+	return func(c *gin.Context) {
+		handleSlateOne(applicationId, c)
+	}
+}
+
+func handleSlateOne(applicationId string, c *gin.Context) {
+
 	c.JSON(
 		http.StatusOK,
 		gin.H{
