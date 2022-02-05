@@ -33,6 +33,10 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 	if requestType == "SessionEndedRequest" {
 		log.Println(fmt.Sprintf("SessionEnded"))
 		return
+	} else if requestType == "LaunchRequest" {
+		log.Println("Launch request")
+		c.JSON(http.StatusOK, launchResponse())
+		return
 	} else if requestType != "IntentRequest" {
 		log.Println(fmt.Sprintf("Unknown request type: %s", requestType))
 		c.JSON(http.StatusOK, unhandledResponse())

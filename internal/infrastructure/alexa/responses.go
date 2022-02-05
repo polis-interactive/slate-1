@@ -2,6 +2,19 @@ package alexa
 
 import "github.com/gin-gonic/gin"
 
+func launchResponse() map[string]interface{} {
+	return gin.H{
+		"version": "1.0",
+		"response": gin.H{
+			"shouldEndSession": true,
+			"outputSpeech": gin.H{
+				"type": "SSML",
+				"ssml": "<speak><amazon:emotion name=\"excited\" intensity=\"medium\">What can i do for you daddy?</amazon:emotion></speak>",
+			},
+		},
+	}
+}
+
 func unhandledResponse() map[string]interface{} {
 	return gin.H{
 		"version": "1.0",
