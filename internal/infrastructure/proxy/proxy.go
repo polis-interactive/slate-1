@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"errors"
 	grpcControl "github.com/polis-interactive/slate-1/api/v1/go"
 	"sync"
 )
@@ -48,12 +49,19 @@ func (p *Proxy) HandleConnectionClose(connectionId uint32) {
 	p.connections = append(p.connections[:closePosition], p.connections[closePosition+1:]...)
 }
 
-func (p *Proxy) HandleDispatchMessage(response *grpcControl.ControlResponse) {
+func (p *Proxy) HandleAlexaCommand(isOn bool) error {
 	p.mu.Lock()
 	defer p.mu.Unlock()
+	if len(p.connections) == 0 {
+		return errors.New("slate is not connected")
+	}
+	response := &grpcControl.ControlResponse{
+		On: isOn,
+	}
 	for _, c := range p.connections {
 		c.ch <- response
 	}
+	return nil
 }
 
 func (p *Proxy) Shutdown() {

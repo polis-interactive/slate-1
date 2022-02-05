@@ -1,6 +1,7 @@
 package cloud
 
 import (
+	"github.com/polis-interactive/slate-1/internal/infrastructure/alexa"
 	"github.com/polis-interactive/slate-1/internal/infrastructure/grpc"
 	"github.com/polis-interactive/slate-1/internal/infrastructure/proxy"
 	"log"
@@ -10,6 +11,7 @@ import (
 type Application struct {
 	proxy        *proxy.Proxy
 	grpcServer   *grpc.Server
+	alexaServer  *alexa.Server
 	shutdown     bool
 	shutdownLock sync.Mutex
 }
@@ -34,6 +36,12 @@ func NewApplication(conf *Config) (*Application, error) {
 	}
 	app.grpcServer = grpcServer
 
+	alexaServer, err := alexa.NewServer(conf, app.proxy)
+	if err != nil {
+		log.Fatalf("Application, NewApplication: failed to initialize alexa server")
+	}
+	app.alexaServer = alexaServer
+
 	return app, nil
 }
 
@@ -54,6 +62,11 @@ func (app *Application) Startup() error {
 		return err
 	}
 
+	err = app.alexaServer.Startup()
+	if err != nil {
+		return err
+	}
+
 	log.Println("Application, Startup: started")
 
 	return nil
@@ -70,8 +83,9 @@ func (app *Application) Shutdown() error {
 	}
 	app.shutdown = true
 
-	app.proxy.Shutdown()
+	app.alexaServer.Shutdown()
 	app.grpcServer.Shutdown()
+	app.proxy.Shutdown()
 
 	log.Println("Application, Shutdown: finished")
 

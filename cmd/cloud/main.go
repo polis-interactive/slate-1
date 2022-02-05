@@ -20,6 +20,9 @@ func main() {
 			ServerAddress: "127.0.0.1",
 			Server:        true,
 		},
+		AlexaPort:     420,
+		IsProduction:  true,
+		ApplicationId: "amzn1.ask.skill.69a5128a-d6b6-4bd2-888d-f388e8986c7b",
 	}
 
 	app, err := cloud.NewApplication(conf)

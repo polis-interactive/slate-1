@@ -1,5 +1,5 @@
 package alexa
 
 type Proxy interface {
-	HandleAlexaCommand(isOff bool) error
+	HandleAlexaCommand(isOn bool) error
 }

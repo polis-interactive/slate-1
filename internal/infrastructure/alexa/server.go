@@ -16,6 +16,7 @@ type Server struct {
 	handler      *handler
 	router       *gin.Engine
 	srv          *http.Server
+	ip           string
 	port         int
 	shutdown     bool
 	shutdownLock sync.Mutex
@@ -41,6 +42,7 @@ func NewServer(cfg Config, p Proxy) (*Server, error) {
 
 	return &Server{
 		handler:  h,
+		ip:       cfg.GetIpInterface(),
 		router:   router,
 		port:     cfg.GetAlexaPort(),
 		shutdown: true,
@@ -58,7 +60,7 @@ func (s *Server) Startup() error {
 		return errors.New("AlexaServer, Startup: Tried to startup server twice")
 	}
 
-	addr := fmt.Sprintf("0.0.0.0:%d", s.port)
+	addr := fmt.Sprintf("%s:%d", s.ip, s.port)
 	log.Println(fmt.Sprintf("AlexaServer, Startup: listening at %s", addr))
 
 	listener, err := net.Listen("tcp", addr)

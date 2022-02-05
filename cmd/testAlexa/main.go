@@ -12,6 +12,10 @@ import (
 type AlexaConfig struct {
 }
 
+func (a AlexaConfig) GetIpInterface() string {
+	return "0.0.0.0"
+}
+
 func (a AlexaConfig) GetApplicationId() string {
 	return "amzn1.ask.skill.69a5128a-d6b6-4bd2-888d-f388e8986c7b"
 }

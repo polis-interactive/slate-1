@@ -53,14 +53,14 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 	}
 
 	newState := strings.ToLower(body.Request.Intent.Slots.State.Value)
-	var isOff bool
+	var isOn bool
 	if newState == "on" || newState == "up" {
-		isOff = false
+		isOn = true
 	} else {
-		isOff = true
+		isOn = false
 	}
 
-	err := h.p.HandleAlexaCommand(isOff)
+	err := h.p.HandleAlexaCommand(isOn)
 	if err != nil {
 		log.Println(fmt.Sprintf("No slate found"))
 		c.JSON(http.StatusOK, noSlateResponse())
