@@ -29,6 +29,10 @@ func handleSlateOne(c *gin.Context) {
 			"version": "1.0",
 			"response": gin.H{
 				"shouldEndSession": true,
+				"outputSpeech": gin.H{
+					"type": "PlainText",
+					"text": "WE LOVE RICH",
+				},
 			},
 		},
 	)
