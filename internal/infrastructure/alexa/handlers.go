@@ -60,7 +60,7 @@ func (h *handler) handleSlateOne(c *gin.Context) {
 
 	newState := strings.ToLower(body.Request.Intent.Slots.State.Value)
 	var isOn bool
-	if newState == "on" || newState == "up" {
+	if strings.Contains(newState, "on") || strings.Contains(newState, "up") {
 		isOn = true
 	} else {
 		isOn = false
